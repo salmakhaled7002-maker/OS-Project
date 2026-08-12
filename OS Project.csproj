@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\PriorityPreemptive.cs" />
+    <Compile Include="Algorithms\SJFPreemptive.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
