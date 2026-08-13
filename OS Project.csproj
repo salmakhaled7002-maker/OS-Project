@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +54,7 @@
       <DependentUpon>AlgorithmForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Algorithms\PriorityPreemptive.cs" />
+    <Compile Include="Algorithms\RR.cs" />
     <Compile Include="Algorithms\SJFPreemptive.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

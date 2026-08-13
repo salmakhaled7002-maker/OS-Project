@@ -16,5 +16,11 @@ namespace OS_Project
         {
             InitializeComponent();
         }
+
+        private void btnRoundRobin_Click(object sender, EventArgs e)
+        {
+            AlgorithmForm form = new AlgorithmForm("Round Robin");
+            form.Show();
+        }
     }
 }

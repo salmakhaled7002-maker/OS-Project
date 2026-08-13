@@ -1,5 +1,4 @@
-﻿
-namespace OS_Project
+﻿namespace OS_Project
 {
     partial class AlgorithmForm
     {
@@ -52,89 +51,107 @@ namespace OS_Project
             this.lblAverageTurnaround = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProcesses)).BeginInit();
             this.SuspendLayout();
+
             // 
             // lblAlgorithmTitle
             // 
             this.lblAlgorithmTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAlgorithmTitle.Location = new System.Drawing.Point(211, 26);
+            this.lblAlgorithmTitle.Location = new System.Drawing.Point(164, 21);
+            this.lblAlgorithmTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAlgorithmTitle.Name = "lblAlgorithmTitle";
-            this.lblAlgorithmTitle.Size = new System.Drawing.Size(506, 37);
+            this.lblAlgorithmTitle.Size = new System.Drawing.Size(394, 30);
             this.lblAlgorithmTitle.TabIndex = 0;
             this.lblAlgorithmTitle.Text = "FIRST COME FIRST SERVE";
             this.lblAlgorithmTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblAlgorithmTitle.Click += new System.EventHandler(this.lblAlgorithmTitle_Click);
+
             // 
             // lblArrivalTime
             // 
             this.lblArrivalTime.AutoSize = true;
             this.lblArrivalTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             this.lblArrivalTime.ForeColor = System.Drawing.Color.Maroon;
-            this.lblArrivalTime.Location = new System.Drawing.Point(34, 109);
+            this.lblArrivalTime.Location = new System.Drawing.Point(26, 87);
+            this.lblArrivalTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblArrivalTime.Name = "lblArrivalTime";
-            this.lblArrivalTime.Size = new System.Drawing.Size(191, 25);
+            this.lblArrivalTime.Size = new System.Drawing.Size(168, 20);
             this.lblArrivalTime.TabIndex = 1;
             this.lblArrivalTime.Text = "Enter Arrival Time ";
+
             // 
             // lblBurstTime
             // 
             this.lblBurstTime.AutoSize = true;
             this.lblBurstTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             this.lblBurstTime.ForeColor = System.Drawing.Color.Maroon;
-            this.lblBurstTime.Location = new System.Drawing.Point(491, 109);
+            this.lblBurstTime.Location = new System.Drawing.Point(382, 87);
+            this.lblBurstTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblBurstTime.Name = "lblBurstTime";
-            this.lblBurstTime.Size = new System.Drawing.Size(173, 25);
+            this.lblBurstTime.Size = new System.Drawing.Size(153, 20);
             this.lblBurstTime.TabIndex = 2;
             this.lblBurstTime.Text = "Enter Burst Time";
+
             // 
             // txtArrivalTime
             // 
-            this.txtArrivalTime.Location = new System.Drawing.Point(231, 108);
+            this.txtArrivalTime.Location = new System.Drawing.Point(180, 86);
+            this.txtArrivalTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtArrivalTime.Name = "txtArrivalTime";
-            this.txtArrivalTime.Size = new System.Drawing.Size(204, 26);
+            this.txtArrivalTime.Size = new System.Drawing.Size(160, 24);
             this.txtArrivalTime.TabIndex = 3;
+
             // 
             // txtBurstTime
             // 
-            this.txtBurstTime.Location = new System.Drawing.Point(682, 108);
+            this.txtBurstTime.Location = new System.Drawing.Point(530, 86);
+            this.txtBurstTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtBurstTime.Name = "txtBurstTime";
-            this.txtBurstTime.Size = new System.Drawing.Size(204, 26);
+            this.txtBurstTime.Size = new System.Drawing.Size(160, 24);
             this.txtBurstTime.TabIndex = 4;
+
             // 
             // btnSubmit
             // 
             this.btnSubmit.BackColor = System.Drawing.Color.MistyRose;
             this.btnSubmit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-            this.btnSubmit.Location = new System.Drawing.Point(135, 152);
+            this.btnSubmit.Location = new System.Drawing.Point(105, 122);
+            this.btnSubmit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(90, 33);
+            this.btnSubmit.Size = new System.Drawing.Size(70, 26);
             this.btnSubmit.TabIndex = 5;
             this.btnSubmit.Text = "Submit";
             this.btnSubmit.UseVisualStyleBackColor = false;
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+
             // 
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.MistyRose;
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnDelete.Location = new System.Drawing.Point(415, 152);
+            this.btnDelete.Location = new System.Drawing.Point(323, 122);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(90, 33);
+            this.btnDelete.Size = new System.Drawing.Size(70, 26);
             this.btnDelete.TabIndex = 6;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+
             // 
             // btnCalculate
             // 
             this.btnCalculate.BackColor = System.Drawing.Color.MistyRose;
             this.btnCalculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCalculate.Location = new System.Drawing.Point(682, 152);
+            this.btnCalculate.Location = new System.Drawing.Point(530, 122);
+            this.btnCalculate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCalculate.Name = "btnCalculate";
-            this.btnCalculate.Size = new System.Drawing.Size(108, 33);
+            this.btnCalculate.Size = new System.Drawing.Size(84, 26);
             this.btnCalculate.TabIndex = 7;
             this.btnCalculate.Text = "Calculate";
             this.btnCalculate.UseVisualStyleBackColor = false;
             this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
+
             // 
             // dgvProcesses
             // 
@@ -166,7 +183,8 @@ namespace OS_Project
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvProcesses.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvProcesses.Location = new System.Drawing.Point(38, 213);
+            this.dgvProcesses.Location = new System.Drawing.Point(30, 170);
+            this.dgvProcesses.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgvProcesses.MultiSelect = false;
             this.dgvProcesses.Name = "dgvProcesses";
             this.dgvProcesses.ReadOnly = true;
@@ -174,8 +192,9 @@ namespace OS_Project
             this.dgvProcesses.RowHeadersWidth = 62;
             this.dgvProcesses.RowTemplate.Height = 28;
             this.dgvProcesses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProcesses.Size = new System.Drawing.Size(897, 270);
+            this.dgvProcesses.Size = new System.Drawing.Size(698, 216);
             this.dgvProcesses.TabIndex = 8;
+
             // 
             // colPID
             // 
@@ -184,6 +203,7 @@ namespace OS_Project
             this.colPID.Name = "colPID";
             this.colPID.ReadOnly = true;
             this.colPID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+
             // 
             // colAT
             // 
@@ -192,6 +212,7 @@ namespace OS_Project
             this.colAT.Name = "colAT";
             this.colAT.ReadOnly = true;
             this.colAT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+
             // 
             // colBT
             // 
@@ -200,6 +221,7 @@ namespace OS_Project
             this.colBT.Name = "colBT";
             this.colBT.ReadOnly = true;
             this.colBT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+
             // 
             // colCT
             // 
@@ -208,6 +230,7 @@ namespace OS_Project
             this.colCT.Name = "colCT";
             this.colCT.ReadOnly = true;
             this.colCT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+
             // 
             // colTAT
             // 
@@ -216,6 +239,7 @@ namespace OS_Project
             this.colTAT.Name = "colTAT";
             this.colTAT.ReadOnly = true;
             this.colTAT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+
             // 
             // colWT
             // 
@@ -224,53 +248,62 @@ namespace OS_Project
             this.colWT.Name = "colWT";
             this.colWT.ReadOnly = true;
             this.colWT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+
             // 
             // pnlGanttChart
             // 
             this.pnlGanttChart.BackColor = System.Drawing.Color.White;
             this.pnlGanttChart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlGanttChart.Location = new System.Drawing.Point(38, 614);
+            this.pnlGanttChart.Location = new System.Drawing.Point(30, 491);
+            this.pnlGanttChart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnlGanttChart.Name = "pnlGanttChart";
-            this.pnlGanttChart.Size = new System.Drawing.Size(897, 100);
+            this.pnlGanttChart.Size = new System.Drawing.Size(698, 80);
             this.pnlGanttChart.TabIndex = 9;
+
             // 
             // lblGanttTitle
             // 
             this.lblGanttTitle.AutoSize = true;
             this.lblGanttTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGanttTitle.ForeColor = System.Drawing.Color.Maroon;
-            this.lblGanttTitle.Location = new System.Drawing.Point(33, 568);
+            this.lblGanttTitle.Location = new System.Drawing.Point(26, 454);
+            this.lblGanttTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGanttTitle.Name = "lblGanttTitle";
-            this.lblGanttTitle.Size = new System.Drawing.Size(135, 26);
+            this.lblGanttTitle.Size = new System.Drawing.Size(113, 24);
             this.lblGanttTitle.TabIndex = 0;
             this.lblGanttTitle.Text = "Gantt Chart";
+
             // 
             // lblAverageWaiting
             // 
             this.lblAverageWaiting.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAverageWaiting.ForeColor = System.Drawing.Color.Maroon;
-            this.lblAverageWaiting.Location = new System.Drawing.Point(34, 513);
+            this.lblAverageWaiting.Location = new System.Drawing.Point(26, 410);
+            this.lblAverageWaiting.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAverageWaiting.Name = "lblAverageWaiting";
-            this.lblAverageWaiting.Size = new System.Drawing.Size(433, 38);
+            this.lblAverageWaiting.Size = new System.Drawing.Size(337, 30);
             this.lblAverageWaiting.TabIndex = 10;
             this.lblAverageWaiting.Text = "Average Waiting Time:";
+
             // 
             // lblAverageTurnaround
             // 
             this.lblAverageTurnaround.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAverageTurnaround.ForeColor = System.Drawing.Color.Maroon;
-            this.lblAverageTurnaround.Location = new System.Drawing.Point(492, 513);
+            this.lblAverageTurnaround.Location = new System.Drawing.Point(383, 410);
+            this.lblAverageTurnaround.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAverageTurnaround.Name = "lblAverageTurnaround";
-            this.lblAverageTurnaround.Size = new System.Drawing.Size(433, 38);
+            this.lblAverageTurnaround.Size = new System.Drawing.Size(337, 30);
             this.lblAverageTurnaround.TabIndex = 11;
             this.lblAverageTurnaround.Text = "Average Turnaround Time:";
+
             // 
             // AlgorithmForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(979, 755);
+            this.ClientSize = new System.Drawing.Size(761, 604);
             this.Controls.Add(this.lblAverageTurnaround);
             this.Controls.Add(this.lblAverageWaiting);
             this.Controls.Add(this.lblGanttTitle);
@@ -284,6 +317,7 @@ namespace OS_Project
             this.Controls.Add(this.lblBurstTime);
             this.Controls.Add(this.lblArrivalTime);
             this.Controls.Add(this.lblAlgorithmTitle);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "AlgorithmForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FCFS";
