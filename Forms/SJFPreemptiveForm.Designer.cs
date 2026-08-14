@@ -56,9 +56,9 @@ namespace OS_Project.Forms
             this.pnlGanttChart.AutoScroll = true;
             this.pnlGanttChart.BackColor = System.Drawing.Color.White;
             this.pnlGanttChart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlGanttChart.Location = new System.Drawing.Point(12, 552);
+            this.pnlGanttChart.Location = new System.Drawing.Point(12, 581);
             this.pnlGanttChart.Name = "pnlGanttChart";
-            this.pnlGanttChart.Size = new System.Drawing.Size(1253, 157);
+            this.pnlGanttChart.Size = new System.Drawing.Size(1253, 112);
             this.pnlGanttChart.TabIndex = 29;
             // 
             // lblAverageTurnaround
@@ -66,7 +66,7 @@ namespace OS_Project.Forms
             this.lblAverageTurnaround.AutoSize = true;
             this.lblAverageTurnaround.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAverageTurnaround.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblAverageTurnaround.Location = new System.Drawing.Point(233, 469);
+            this.lblAverageTurnaround.Location = new System.Drawing.Point(54, 469);
             this.lblAverageTurnaround.Name = "lblAverageTurnaround";
             this.lblAverageTurnaround.Size = new System.Drawing.Size(293, 26);
             this.lblAverageTurnaround.TabIndex = 27;
@@ -136,7 +136,7 @@ namespace OS_Project.Forms
             this.lblGanttChart.AutoSize = true;
             this.lblGanttChart.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGanttChart.ForeColor = System.Drawing.Color.Maroon;
-            this.lblGanttChart.Location = new System.Drawing.Point(12, 517);
+            this.lblGanttChart.Location = new System.Drawing.Point(12, 537);
             this.lblGanttChart.Name = "lblGanttChart";
             this.lblGanttChart.Size = new System.Drawing.Size(172, 32);
             this.lblGanttChart.TabIndex = 28;
@@ -276,6 +276,7 @@ namespace OS_Project.Forms
             this.Name = "SJFPreemptiveForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SJF (Preemptive)";
+            this.Load += new System.EventHandler(this.SJFPreemptiveForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProcesses)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

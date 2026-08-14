@@ -33,13 +33,7 @@ namespace OS_Project.Forms
             this.lblAverageTurnaround = new System.Windows.Forms.Label();
             this.lblAverageWaiting = new System.Windows.Forms.Label();
             this.lblGanttChart = new System.Windows.Forms.Label();
-            this.colPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvProcesses = new System.Windows.Forms.DataGridView();
-            this.colBT = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCT = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colWT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnCalculate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSubmit = new System.Windows.Forms.Button();
@@ -50,6 +44,13 @@ namespace OS_Project.Forms
             this.lblBurstTime = new System.Windows.Forms.Label();
             this.lblArrivalTime = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.colPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colpriority = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colWT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProcesses)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +61,7 @@ namespace OS_Project.Forms
             this.pnlGanttChart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlGanttChart.Location = new System.Drawing.Point(12, 558);
             this.pnlGanttChart.Name = "pnlGanttChart";
-            this.pnlGanttChart.Size = new System.Drawing.Size(1253, 157);
+            this.pnlGanttChart.Size = new System.Drawing.Size(1253, 140);
             this.pnlGanttChart.TabIndex = 44;
             // 
             // lblAverageTurnaround
@@ -96,22 +97,6 @@ namespace OS_Project.Forms
             this.lblGanttChart.TabIndex = 43;
             this.lblGanttChart.Text = "Gantt Chart";
             // 
-            // colPID
-            // 
-            this.colPID.HeaderText = "P_ID";
-            this.colPID.MinimumWidth = 8;
-            this.colPID.Name = "colPID";
-            this.colPID.ReadOnly = true;
-            this.colPID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colAT
-            // 
-            this.colAT.HeaderText = "AT";
-            this.colAT.MinimumWidth = 8;
-            this.colAT.Name = "colAT";
-            this.colAT.ReadOnly = true;
-            this.colAT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // dgvProcesses
             // 
             this.dgvProcesses.AllowUserToAddRows = false;
@@ -122,6 +107,7 @@ namespace OS_Project.Forms
             this.colPID,
             this.colAT,
             this.colBT,
+            this.colpriority,
             this.colCT,
             this.colTAT,
             this.colWT});
@@ -134,38 +120,6 @@ namespace OS_Project.Forms
             this.dgvProcesses.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvProcesses.Size = new System.Drawing.Size(1207, 252);
             this.dgvProcesses.TabIndex = 40;
-            // 
-            // colBT
-            // 
-            this.colBT.HeaderText = "BT";
-            this.colBT.MinimumWidth = 8;
-            this.colBT.Name = "colBT";
-            this.colBT.ReadOnly = true;
-            this.colBT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colCT
-            // 
-            this.colCT.HeaderText = "CT";
-            this.colCT.MinimumWidth = 8;
-            this.colCT.Name = "colCT";
-            this.colCT.ReadOnly = true;
-            this.colCT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colTAT
-            // 
-            this.colTAT.HeaderText = "TAT";
-            this.colTAT.MinimumWidth = 8;
-            this.colTAT.Name = "colTAT";
-            this.colTAT.ReadOnly = true;
-            this.colTAT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colWT
-            // 
-            this.colWT.HeaderText = "WT";
-            this.colWT.MinimumWidth = 8;
-            this.colWT.Name = "colWT";
-            this.colWT.ReadOnly = true;
-            this.colWT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // btnCalculate
             // 
@@ -271,6 +225,62 @@ namespace OS_Project.Forms
             this.lblTitle.Text = "PRIORITY PREEMPITIVE";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // colPID
+            // 
+            this.colPID.HeaderText = "P_ID";
+            this.colPID.MinimumWidth = 8;
+            this.colPID.Name = "colPID";
+            this.colPID.ReadOnly = true;
+            this.colPID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colAT
+            // 
+            this.colAT.HeaderText = "AT";
+            this.colAT.MinimumWidth = 8;
+            this.colAT.Name = "colAT";
+            this.colAT.ReadOnly = true;
+            this.colAT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colBT
+            // 
+            this.colBT.HeaderText = "BT";
+            this.colBT.MinimumWidth = 8;
+            this.colBT.Name = "colBT";
+            this.colBT.ReadOnly = true;
+            this.colBT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colpriority
+            // 
+            this.colpriority.HeaderText = "PRIORITY";
+            this.colpriority.MinimumWidth = 8;
+            this.colpriority.Name = "colpriority";
+            this.colpriority.ReadOnly = true;
+            this.colpriority.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colCT
+            // 
+            this.colCT.HeaderText = "CT";
+            this.colCT.MinimumWidth = 8;
+            this.colCT.Name = "colCT";
+            this.colCT.ReadOnly = true;
+            this.colCT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colTAT
+            // 
+            this.colTAT.HeaderText = "TAT";
+            this.colTAT.MinimumWidth = 8;
+            this.colTAT.Name = "colTAT";
+            this.colTAT.ReadOnly = true;
+            this.colTAT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colWT
+            // 
+            this.colWT.HeaderText = "WT";
+            this.colWT.MinimumWidth = 8;
+            this.colWT.Name = "colWT";
+            this.colWT.ReadOnly = true;
+            this.colWT.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // PriorityPreemptiveForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -309,13 +319,7 @@ namespace OS_Project.Forms
         private System.Windows.Forms.Label lblAverageTurnaround;
         private System.Windows.Forms.Label lblAverageWaiting;
         private System.Windows.Forms.Label lblGanttChart;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAT;
         private System.Windows.Forms.DataGridView dgvProcesses;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colBT;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCT;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTAT;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colWT;
         private System.Windows.Forms.Button btnCalculate;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnSubmit;
@@ -326,5 +330,12 @@ namespace OS_Project.Forms
         private System.Windows.Forms.Label lblBurstTime;
         private System.Windows.Forms.Label lblArrivalTime;
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colpriority;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTAT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colWT;
     }
 }
