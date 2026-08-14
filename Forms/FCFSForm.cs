@@ -8,19 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OS_Project
+namespace OS_Project.Forms
 {
-    public partial class Form1 : Form
+    public partial class FCFSForm : Form
     {
-        public Form1()
+        public FCFSForm()
         {
             InitializeComponent();
-        }
-
-        private void btnRoundRobin_Click(object sender, EventArgs e)
-        {
-            RoundRobinForm form = new RoundRobinForm();
-            form.Show();
         }
     }
 }
