@@ -47,12 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlgorithmForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AlgorithmForm.Designer.cs">
-      <DependentUpon>AlgorithmForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Algorithms\PriorityPreemptive.cs" />
     <Compile Include="Algorithms\RR.cs" />
     <Compile Include="Algorithms\SJFPreemptive.cs" />
@@ -65,11 +59,14 @@
     <Compile Include="Models\Process.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoundRobinForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoundRobinForm.Designer.cs">
+      <DependentUpon>RoundRobinForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\StatisticsCalculator.cs" />
     <Compile Include="Services\InputValidator.cs" />
-    <EmbeddedResource Include="AlgorithmForm.resx">
-      <DependentUpon>AlgorithmForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -82,6 +79,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RoundRobinForm.resx">
+      <DependentUpon>RoundRobinForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

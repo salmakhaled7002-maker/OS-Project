@@ -19,7 +19,7 @@ namespace OS_Project
 
         private void btnRoundRobin_Click(object sender, EventArgs e)
         {
-            AlgorithmForm form = new AlgorithmForm("Round Robin");
+            RoundRobinForm form = new RoundRobinForm();
             form.Show();
         }
     }
