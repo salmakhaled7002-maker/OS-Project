@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using OS_Project.Models;
+using OS_Project.Algorithms;
 
 namespace OS_Project.Forms
 {
