@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
+using OS_Project.Models;
+using OS_Project.Algorithms;
+using OS_Project.Services;
 namespace OS_Project.Forms
 {
     public partial class Priority_Non_Pre_Form : Form
@@ -281,18 +283,153 @@ namespace OS_Project.Forms
                 return;
             }
 
+            List<Process> processes = new List<Process>();
 
             // =========================================
-            // ALGORITHM NOT READY YET
+            // READ PROCESSES FROM DATA GRID
             // =========================================
 
-            MessageBox.Show(
-                "Priority Non-Preemptive algorithm is not connected yet.",
-                "Calculate",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            foreach (DataGridViewRow row in dgvProcesses.Rows)
+            {
+                if (row.IsNewRow)
+                    continue;
+
+                Process process = new Process();
+
+                process.Id = Convert.ToInt32(row.Cells[0].Value);
+                process.ArrivalTime = Convert.ToInt32(row.Cells[1].Value);
+                process.BurstTime = Convert.ToInt32(row.Cells[2].Value);
+                process.Priority = Convert.ToInt32(row.Cells[3].Value);
+
+                processes.Add(process);
+            }
+
+            // =========================================
+            // RUN PRIORITY NON-PREEMPTIVE ALGORITHM
+            // =========================================
+
+            List<Process> result =
+                PriorityScheduling.Schedule(processes);
+
+            // =========================================
+            // DISPLAY RESULTS
+            // =========================================
+
+            foreach (Process process in result)
+            {
+                foreach (DataGridViewRow row in dgvProcesses.Rows)
+                {
+                    if (row.IsNewRow)
+                        continue;
+
+                    int id = Convert.ToInt32(row.Cells[0].Value);
+
+                    if (id == process.Id)
+                    {
+                        row.Cells[4].Value = process.CompletionTime;
+                        row.Cells[5].Value = process.TurnaroundTime;
+                        row.Cells[6].Value = process.WaitingTime;
+
+                        break;
+                    }
+                }
+            }
+
+            // =========================================
+            // AVERAGES
+            // =========================================
+
+            double averageWaiting =
+                StatisticsCalculator.CalculateAverageWaitingTime(result);
+
+            double averageTurnaround =
+                StatisticsCalculator.CalculateAverageTurnaroundTime(result);
+
+            lblAverageWaiting.Text =
+                "Average Waiting Time: " +
+                averageWaiting.ToString("0.##");
+
+            lblAverageTurnaround.Text =
+                "Average Turnaround Time: " +
+                averageTurnaround.ToString("0.##");
+
+            // =========================================
+            // DRAW GANTT CHART
+            // =========================================
+
+            DrawGanttChart(PriorityScheduling.GanttChart);
         }
+        private void DrawGanttChart(List<string> ganttChart)
+{
+    pnlGanttChart.Controls.Clear();
 
+    if (ganttChart == null || ganttChart.Count == 0)
+    {
+        pnlGanttChart.AutoScrollMinSize =
+            new Size(0, 0);
+
+        pnlGanttChart.Invalidate();
+        return;
+    }
+
+    int x = 10;
+    int y = 15;
+
+    int boxWidth = 100;
+    int boxHeight = 70;
+
+    foreach (string processName in ganttChart)
+    {
+        Panel box = new Panel();
+
+        box.Left = x;
+        box.Top = y;
+
+        box.Width = boxWidth;
+        box.Height = boxHeight;
+
+        box.BorderStyle =
+            BorderStyle.FixedSingle;
+
+        box.BackColor =
+            Color.MistyRose;
+
+        Label processLabel = new Label();
+
+        processLabel.Text = processName;
+
+        processLabel.Left = 0;
+        processLabel.Top = 0;
+
+        processLabel.Width = boxWidth;
+        processLabel.Height = 40;
+
+        processLabel.TextAlign =
+            ContentAlignment.MiddleCenter;
+
+        processLabel.Font =
+            new Font(
+                "Arial",
+                12,
+                FontStyle.Bold);
+
+        processLabel.BackColor =
+            Color.Transparent;
+
+        box.Controls.Add(processLabel);
+
+        pnlGanttChart.Controls.Add(box);
+
+        x += boxWidth;
+    }
+
+    pnlGanttChart.AutoScrollMinSize =
+        new Size(
+            x + 20,
+            boxHeight + y + 20);
+
+    pnlGanttChart.Invalidate();
+}
 
         // =========================================================
         // DESIGNER / OLD EVENTS

@@ -49,7 +49,9 @@
   <ItemGroup>
     <Compile Include="Algorithms\First come first serve.cs" />
     <Compile Include="Algorithms\PriorityPreemptive.cs" />
+    <Compile Include="Algorithms\PriorityScheduling.cs" />
     <Compile Include="Algorithms\RR.cs" />
+    <Compile Include="Algorithms\SJF.cs" />
     <Compile Include="Algorithms\SJFPreemptive.cs" />
     <Compile Include="Forms\FCFSForm.cs">
       <SubType>Form</SubType>

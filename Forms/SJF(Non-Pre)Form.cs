@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using OS_Project.Models;
 using OS_Project.Algorithms;
+using OS_Project.Services;
 
 namespace OS_Project.Forms
 {
@@ -13,11 +13,6 @@ namespace OS_Project.Forms
         public SJF_Non_Pre_Form()
         {
             InitializeComponent();
-
-            // =========================================
-            // CONNECT BUTTON EVENTS
-            // =========================================
-
             btnSubmit.Click -= btnSubmit_Click;
             btnSubmit.Click += btnSubmit_Click;
 
@@ -26,11 +21,6 @@ namespace OS_Project.Forms
 
             btnCalculate.Click -= btnCalculate_Click;
             btnCalculate.Click += btnCalculate_Click;
-
-
-            // =========================================
-            // DATA GRID SETTINGS
-            // =========================================
 
             dgvProcesses.AllowUserToAddRows = false;
             dgvProcesses.ReadOnly = true;
@@ -45,32 +35,13 @@ namespace OS_Project.Forms
             dgvProcesses.ScrollBars =
                 ScrollBars.Vertical;
 
-
-            // =========================================
-            // GANTT PANEL SETTINGS
-            // =========================================
-
             pnlGanttChart.AutoScroll = true;
         }
-
-
-        // =========================================================
-        // SUBMIT BUTTON
-        // =========================================================
-
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             int arrivalTime;
             int burstTime;
-
-
-            // =========================================
-            // ARRIVAL TIME
-            // =========================================
-
-            if (!int.TryParse(
-                txtArrivalTime.Text.Trim(),
-                out arrivalTime))
+            if (!int.TryParse(txtArrivalTime.Text.Trim(),out arrivalTime))
             {
                 MessageBox.Show(
                     "Please enter a valid Arrival Time.",
@@ -81,15 +52,7 @@ namespace OS_Project.Forms
                 txtArrivalTime.Focus();
                 return;
             }
-
-
-            // =========================================
-            // BURST TIME
-            // =========================================
-
-            if (!int.TryParse(
-                txtBurstTime.Text.Trim(),
-                out burstTime))
+            if (!int.TryParse(txtBurstTime.Text.Trim(),out burstTime))
             {
                 MessageBox.Show(
                     "Please enter a valid Burst Time.",
@@ -100,12 +63,6 @@ namespace OS_Project.Forms
                 txtBurstTime.Focus();
                 return;
             }
-
-
-            // =========================================
-            // VALIDATION
-            // =========================================
-
             if (arrivalTime < 0)
             {
                 MessageBox.Show(
@@ -117,8 +74,6 @@ namespace OS_Project.Forms
                 txtArrivalTime.Focus();
                 return;
             }
-
-
             if (burstTime <= 0)
             {
                 MessageBox.Show(
@@ -130,45 +85,13 @@ namespace OS_Project.Forms
                 txtBurstTime.Focus();
                 return;
             }
-
-
-            // =========================================
-            // GENERATE PROCESS ID
-            // =========================================
-
-            int processId =
-                dgvProcesses.Rows.Count + 1;
-
-
-            // =========================================
-            // ADD PROCESS
-            // =========================================
-
-            dgvProcesses.Rows.Add(
-                processId,
-                arrivalTime,
-                burstTime,
-                "",
-                "",
-                ""
-            );
-
-
-            // =========================================
-            // CLEAR INPUTS
-            // =========================================
+            int processId = dgvProcesses.Rows.Count + 1;
+            dgvProcesses.Rows.Add( processId, arrivalTime, burstTime,"","","");
 
             txtArrivalTime.Clear();
             txtBurstTime.Clear();
-
             txtArrivalTime.Focus();
         }
-
-
-        // =========================================================
-        // DELETE BUTTON
-        // =========================================================
-
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvProcesses.SelectedRows.Count == 0)
@@ -181,8 +104,6 @@ namespace OS_Project.Forms
 
                 return;
             }
-
-
             foreach (DataGridViewRow row
                 in dgvProcesses.SelectedRows)
             {
@@ -191,12 +112,6 @@ namespace OS_Project.Forms
                     dgvProcesses.Rows.Remove(row);
                 }
             }
-
-
-            // =========================================
-            // RE-NUMBER PROCESS IDs
-            // =========================================
-
             for (int i = 0;
                 i < dgvProcesses.Rows.Count;
                 i++)
@@ -205,36 +120,26 @@ namespace OS_Project.Forms
                     .Cells[0]
                     .Value = i + 1;
             }
-
-
-            // =========================================
-            // RESET RESULTS
-            // =========================================
-
             lblAverageWaiting.Text =
                 "Average Waiting Time:";
 
             lblAverageTurnaround.Text =
                 "Average Turnaround Time:";
 
-
-            // =========================================
-            // CLEAR GANTT
-            // =========================================
-
+            for (int i = 0;i < dgvProcesses.Rows.Count;i++)
+            {
+                dgvProcesses.Rows[i].Cells[3].Value = "";
+                dgvProcesses.Rows[i].Cells[4].Value = "";
+                dgvProcesses.Rows[i].Cells[5].Value = "";
+            }
             pnlGanttChart.Controls.Clear();
 
             pnlGanttChart.AutoScrollMinSize =
                 new Size(0, 0);
 
             pnlGanttChart.Invalidate();
+            SJF.GanttChart.Clear();
         }
-
-
-        // =========================================================
-        // CALCULATE BUTTON
-        // =========================================================
-
         private void btnCalculate_Click(object sender, EventArgs e)
         {
             if (dgvProcesses.Rows.Count == 0)
@@ -247,25 +152,104 @@ namespace OS_Project.Forms
 
                 return;
             }
+            try
+            {
+
+                List<Process> processes = new List<Process>();
+                foreach (DataGridViewRow row
+                    in dgvProcesses.Rows)
+                {
+                    if (row.IsNewRow)
+                        continue;
+
+                    int id = Convert.ToInt32(row.Cells[0].Value);
+                    int arrivalTime = Convert.ToInt32(row.Cells[1].Value);
+
+                    int burstTime = Convert.ToInt32(row.Cells[2].Value);
+                    Process process = new Process
+                        {
+                            Id = id,
+                            ArrivalTime = arrivalTime,
+                            BurstTime = burstTime,
+                            RemainingTime = burstTime
+                        };
 
 
-            /*
-             * ==============================================
-             * ALGORITHM WILL BE CONNECTED LATER
-             * ==============================================
-             *
-             * هنا الفريق لسه هيعمل SJF Non-Preemptive Algorithm.
-             *
-             * لما يخلصوا Algorithm هنقرأ الـ Processes
-             * ونبعتها للـ Schedule() ونحط النتائج هنا.
-             */
+                    processes.Add(process);
+                }
+                List<Process> results = SJF.Schedule(processes);
+                if (results == null || results.Count == 0)
+                {
+                    MessageBox.Show(
+                        "No results were returned.",
+                        "Calculation Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+                foreach (Process process
+                    in results)
+                {
+                    foreach (DataGridViewRow row
+                        in dgvProcesses.Rows)
+                    {
+                        if (row.IsNewRow)
+                            continue;
 
 
-            MessageBox.Show(
-                "SJF Non-Preemptive Algorithm is not connected yet.",
-                "Waiting for Algorithm",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+                        int id = Convert.ToInt32(row.Cells[0].Value);
+                        if (id == process.Id)
+                        {
+                            row.Cells[3].Value = process.CompletionTime;
+                            row.Cells[4].Value = process.TurnaroundTime;
+                            row.Cells[5].Value = process.WaitingTime;
+                            break;
+                        }
+                    }
+                }
+                double averageWaitingTime =
+                    StatisticsCalculator
+                    .CalculateAverageWaitingTime(
+                        results);
+
+
+                double averageTurnaroundTime =
+                    StatisticsCalculator
+                    .CalculateAverageTurnaroundTime(
+                        results);
+
+
+                // =========================================
+                // DISPLAY AVERAGES
+                // =========================================
+
+                lblAverageWaiting.Text =
+                    "Average Waiting Time: " +
+                    averageWaitingTime.ToString("0.##");
+
+
+                lblAverageTurnaround.Text =
+                    "Average Turnaround Time: " +
+                    averageTurnaroundTime.ToString("0.##");
+
+
+                // =========================================
+                // DRAW GANTT CHART
+                // =========================================
+
+                DrawGanttChart(
+                    SJF.GanttChart);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "An error occurred while calculating:\n\n" +
+                    ex.Message,
+                    "Calculation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
 
@@ -276,6 +260,7 @@ namespace OS_Project.Forms
         private void DrawGanttChart(
             List<string> ganttChart)
         {
+            // Clear old chart
             pnlGanttChart.Controls.Clear();
 
 
@@ -297,14 +282,15 @@ namespace OS_Project.Forms
             int x = 10;
             int y = 15;
 
-            int boxWidth = 100;
-            int boxHeight = 70;
+            // Smaller boxes
+            int boxWidth = 80;
+            int boxHeight = 60;
 
             int gap = 0;
 
 
             // =========================================
-            // DRAW GANTT
+            // DRAW EACH GANTT BLOCK
             // =========================================
 
             foreach (string processName
@@ -312,6 +298,7 @@ namespace OS_Project.Forms
             {
                 Panel box =
                     new Panel();
+
 
                 box.Left = x;
                 box.Top = y;
@@ -333,6 +320,7 @@ namespace OS_Project.Forms
                 Label processLabel =
                     new Label();
 
+
                 processLabel.Text =
                     processName;
 
@@ -342,7 +330,8 @@ namespace OS_Project.Forms
                 processLabel.Width =
                     boxWidth;
 
-                processLabel.Height = 40;
+                processLabel.Height =
+                    boxHeight;
 
                 processLabel.TextAlign =
                     ContentAlignment.MiddleCenter;
@@ -350,21 +339,30 @@ namespace OS_Project.Forms
                 processLabel.Font =
                     new Font(
                         "Arial",
-                        12,
+                        9,
                         FontStyle.Bold);
 
                 processLabel.BackColor =
                     Color.Transparent;
 
 
+                // =====================================
+                // ADD LABEL TO BOX
+                // =====================================
+
                 box.Controls.Add(
                     processLabel);
 
+
+                // =====================================
+                // ADD BOX TO GANTT PANEL
+                // =====================================
 
                 pnlGanttChart.Controls.Add(
                     box);
 
 
+                // Move to next box
                 x += boxWidth + gap;
             }
 
@@ -386,37 +384,19 @@ namespace OS_Project.Forms
         // DESIGNER / OLD EVENTS
         // =========================================================
 
-        private void SJF_Non_Pre_Form_Load(
-            object sender,
-            EventArgs e)
+        private void SJF_Non_Pre_Form_Load(object sender,EventArgs e)
         {
         }
-
-
-        private void txtBurstTime_TextChanged(
-            object sender,
-            EventArgs e)
+        private void txtBurstTime_TextChanged(object sender,EventArgs e)
         {
         }
-
-
-        private void lblAverageTurnaround_Click(
-            object sender,
-            EventArgs e)
+        private void lblAverageTurnaround_Click(object sender,EventArgs e)
         {
         }
-
-
-        private void label1_Click(
-            object sender,
-            EventArgs e)
+        private void label1_Click(object sender,EventArgs e)
         {
         }
-
-
-        private void label2_Click(
-            object sender,
-            EventArgs e)
+        private void label2_Click(object sender, EventArgs e)
         {
         }
     }
