@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using OS_Project.Models;
 using OS_Project.Algorithms;
-using OS_Project.Services;
 
 namespace OS_Project.Forms
 {
@@ -64,7 +64,10 @@ namespace OS_Project.Forms
             int burstTime;
 
 
-            // Arrival Time
+            // =========================================
+            // ARRIVAL TIME
+            // =========================================
+
             if (!int.TryParse(
                 txtArrivalTime.Text.Trim(),
                 out arrivalTime))
@@ -80,7 +83,10 @@ namespace OS_Project.Forms
             }
 
 
-            // Burst Time
+            // =========================================
+            // BURST TIME
+            // =========================================
+
             if (!int.TryParse(
                 txtBurstTime.Text.Trim(),
                 out burstTime))
@@ -96,7 +102,10 @@ namespace OS_Project.Forms
             }
 
 
-            // Validation
+            // =========================================
+            // VALIDATION
+            // =========================================
+
             if (arrivalTime < 0)
             {
                 MessageBox.Show(
@@ -123,12 +132,18 @@ namespace OS_Project.Forms
             }
 
 
-            // Generate Process ID
+            // =========================================
+            // GENERATE PROCESS ID
+            // =========================================
+
             int processId =
                 dgvProcesses.Rows.Count + 1;
 
 
-            // Add Process
+            // =========================================
+            // ADD PROCESS TO TABLE
+            // =========================================
+
             dgvProcesses.Rows.Add(
                 processId,
                 arrivalTime,
@@ -139,7 +154,10 @@ namespace OS_Project.Forms
             );
 
 
-            // Clear inputs
+            // =========================================
+            // CLEAR INPUTS
+            // =========================================
+
             txtArrivalTime.Clear();
             txtBurstTime.Clear();
 
@@ -165,6 +183,10 @@ namespace OS_Project.Forms
             }
 
 
+            // =========================================
+            // DELETE SELECTED ROW
+            // =========================================
+
             foreach (DataGridViewRow row
                 in dgvProcesses.SelectedRows)
             {
@@ -175,7 +197,10 @@ namespace OS_Project.Forms
             }
 
 
-            // Re-number Process IDs
+            // =========================================
+            // RE-NUMBER PROCESS IDs
+            // =========================================
+
             for (int i = 0;
                 i < dgvProcesses.Rows.Count;
                 i++)
@@ -186,7 +211,10 @@ namespace OS_Project.Forms
             }
 
 
-            // Reset averages
+            // =========================================
+            // RESET AVERAGES
+            // =========================================
+
             lblAverageWaiting.Text =
                 "Average Waiting Time:";
 
@@ -194,7 +222,10 @@ namespace OS_Project.Forms
                 "Average Turnaround Time:";
 
 
-            // Clear Gantt Chart
+            // =========================================
+            // CLEAR GANTT CHART
+            // =========================================
+
             pnlGanttChart.Controls.Clear();
 
             pnlGanttChart.AutoScrollMinSize =
@@ -222,16 +253,338 @@ namespace OS_Project.Forms
             }
 
 
-            // =========================================
-            // TEMPORARY MESSAGE
-            // =========================================
-            // Replace this when FCFS Algorithm is ready.
+            try
+            {
+                // =========================================
+                // CREATE PROCESS LIST
+                // =========================================
 
-            MessageBox.Show(
-                "FCFS algorithm is not connected yet.",
-                "Calculate",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+                List<Process> processes =
+                    new List<Process>();
+
+
+                // =========================================
+                // READ DATA FROM GRID
+                // =========================================
+
+                foreach (DataGridViewRow row
+                    in dgvProcesses.Rows)
+                {
+                    if (row.IsNewRow)
+                        continue;
+
+
+                    int id =
+                        Convert.ToInt32(
+                            row.Cells[0].Value);
+
+                    int arrivalTime =
+                        Convert.ToInt32(
+                            row.Cells[1].Value);
+
+                    int burstTime =
+                        Convert.ToInt32(
+                            row.Cells[2].Value);
+
+
+                    Process process =
+                        new Process
+                        {
+                            Id = id,
+                            ArrivalTime = arrivalTime,
+                            BurstTime = burstTime
+                        };
+
+
+                    processes.Add(process);
+                }
+
+
+                // =========================================
+                // RUN FCFS ALGORITHM
+                // =========================================
+
+                List<Process> results =
+                    First_come_first_serve.Calculate(
+                        processes);
+
+
+                // =========================================
+                // DISPLAY RESULTS
+                // =========================================
+
+                // Results are returned ordered by ID
+                for (int i = 0;
+                    i < results.Count;
+                    i++)
+                {
+                    // CT
+                    dgvProcesses.Rows[i]
+                        .Cells[3]
+                        .Value =
+                        results[i].CompletionTime;
+
+
+                    // TAT
+                    dgvProcesses.Rows[i]
+                        .Cells[4]
+                        .Value =
+                        results[i].TurnaroundTime;
+
+
+                    // WT
+                    dgvProcesses.Rows[i]
+                        .Cells[5]
+                        .Value =
+                        results[i].WaitingTime;
+                }
+
+
+                // =========================================
+                // AVERAGES
+                // =========================================
+
+                double averageWaitingTime =
+                    First_come_first_serve
+                    .GetAverageWaitingTime(results);
+
+
+                double averageTurnaroundTime =
+                    First_come_first_serve
+                    .GetAverageTurnaroundTime(results);
+
+
+                // =========================================
+                // DISPLAY AVERAGES
+                // =========================================
+
+                lblAverageWaiting.Text =
+                    "Average Waiting Time: " +
+                    averageWaitingTime.ToString("0.##");
+
+
+                lblAverageTurnaround.Text =
+                    "Average Turnaround Time: " +
+                    averageTurnaroundTime.ToString("0.##");
+
+
+                // =========================================
+                // DRAW GANTT CHART
+                // =========================================
+
+                DrawGanttChart();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "An error occurred:\n\n" +
+                    ex.Message,
+                    "Calculation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+
+        // =========================================================
+        // DRAW GANTT CHART
+        // =========================================================
+
+        // =========================================================
+        // DRAW GANTT CHART
+        // =========================================================
+
+        private void DrawGanttChart()
+        {
+            // Clear old chart
+            pnlGanttChart.Controls.Clear();
+
+            if (First_come_first_serve.GanttChart == null ||
+                First_come_first_serve.GanttChart.Count == 0)
+            {
+                pnlGanttChart.AutoScrollMinSize =
+                    new Size(0, 0);
+
+                pnlGanttChart.Invalidate();
+                return;
+            }
+
+            // =========================================
+            // SETTINGS
+            // =========================================
+
+            int x = 10;
+            int y = 15;
+
+            int boxWidth = 80;
+            int boxHeight = 70;
+
+            int gap = 0;
+
+            // =========================================
+            // GROUP CONSECUTIVE SAME PROCESSES
+            // =========================================
+
+            List<string> processNames =
+                new List<string>();
+
+            List<int> startTimes =
+                new List<int>();
+
+            List<int> endTimes =
+                new List<int>();
+
+            int currentStart = 0;
+
+            string currentProcess =
+                First_come_first_serve.GanttChart[0];
+
+            for (int i = 1;
+                 i <= First_come_first_serve.GanttChart.Count;
+                 i++)
+            {
+                if (i < First_come_first_serve.GanttChart.Count &&
+                    First_come_first_serve.GanttChart[i] == currentProcess)
+                {
+                    continue;
+                }
+
+                // Add current block
+                processNames.Add(currentProcess);
+                startTimes.Add(currentStart);
+                endTimes.Add(i);
+
+                // Start next block
+                if (i < First_come_first_serve.GanttChart.Count)
+                {
+                    currentProcess =
+                        First_come_first_serve.GanttChart[i];
+
+                    currentStart = i;
+                }
+            }
+
+            // =========================================
+            // DRAW EACH BLOCK
+            // =========================================
+
+            for (int i = 0;
+                 i < processNames.Count;
+                 i++)
+            {
+                Panel box =
+                    new Panel();
+
+                box.Left = x;
+                box.Top = y;
+
+                box.Width = boxWidth;
+                box.Height = boxHeight;
+
+                box.BorderStyle =
+                    BorderStyle.FixedSingle;
+
+                box.BackColor =
+                    Color.MistyRose;
+
+
+                // =====================================
+                // PROCESS NAME
+                // =====================================
+
+                Label processLabel =
+                    new Label();
+
+                processLabel.Text =
+                    processNames[i];
+
+                processLabel.Left = 0;
+                processLabel.Top = 5;
+
+                processLabel.Width =
+                    boxWidth;
+
+                processLabel.Height = 35;
+
+                processLabel.TextAlign =
+                    ContentAlignment.MiddleCenter;
+
+                processLabel.Font =
+                    new Font(
+                        "Arial",
+                        11,
+                        FontStyle.Bold);
+
+                processLabel.BackColor =
+                    Color.Transparent;
+
+
+                // =====================================
+                // TIME
+                // =====================================
+
+                Label timeLabel =
+                    new Label();
+
+                timeLabel.Text =
+                    startTimes[i] +
+                    " - " +
+                    endTimes[i];
+
+                timeLabel.Left = 0;
+                timeLabel.Top = 42;
+
+                timeLabel.Width =
+                    boxWidth;
+
+                timeLabel.Height = 25;
+
+                timeLabel.TextAlign =
+                    ContentAlignment.MiddleCenter;
+
+                timeLabel.Font =
+                    new Font(
+                        "Arial",
+                        9,
+                        FontStyle.Regular);
+
+                timeLabel.BackColor =
+                    Color.Transparent;
+
+
+                // =====================================
+                // ADD LABELS
+                // =====================================
+
+                box.Controls.Add(
+                    processLabel);
+
+                box.Controls.Add(
+                    timeLabel);
+
+
+                // =====================================
+                // ADD BOX TO PANEL
+                // =====================================
+
+                pnlGanttChart.Controls.Add(box);
+
+
+                // Move to next box
+                x += boxWidth + gap;
+            }
+
+
+            // =========================================
+            // SCROLL AREA
+            // =========================================
+
+            pnlGanttChart.AutoScrollMinSize =
+                new Size(
+                    x + 20,
+                    boxHeight + y + 20);
+
+            pnlGanttChart.Invalidate();
         }
 
 

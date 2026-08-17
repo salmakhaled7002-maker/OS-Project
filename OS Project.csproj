@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\First come first serve.cs" />
     <Compile Include="Algorithms\PriorityPreemptive.cs" />
     <Compile Include="Algorithms\RR.cs" />
     <Compile Include="Algorithms\SJFPreemptive.cs" />
