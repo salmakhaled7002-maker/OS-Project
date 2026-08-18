@@ -13,11 +13,7 @@ namespace OS_Project.Forms
         public PriorityPreemptiveForm()
         {
             InitializeComponent();
-
-            // =========================================
-            // CONNECT BUTTON EVENTS
-            // =========================================
-
+             
             btnSubmit.Click -= btnSubmit_Click;
             btnSubmit.Click += btnSubmit_Click;
 
@@ -27,11 +23,7 @@ namespace OS_Project.Forms
             btnCalculate.Click -= btnCalculate_Click;
             btnCalculate.Click += btnCalculate_Click;
 
-
-            // =========================================
-            // DATA GRID SETTINGS
-            // =========================================
-
+ 
             dgvProcesses.AllowUserToAddRows = false;
             dgvProcesses.ReadOnly = true;
             dgvProcesses.MultiSelect = false;
@@ -44,31 +36,17 @@ namespace OS_Project.Forms
 
             dgvProcesses.ScrollBars =
                 ScrollBars.Vertical;
-
-
-            // =========================================
-            // GANTT PANEL SETTINGS
-            // =========================================
-
+             
             pnlGanttChart.AutoScroll = true;
         }
-
-
-        // =========================================================
-        // SUBMIT BUTTON
-        // =========================================================
-
+         
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             int arrivalTime;
             int burstTime;
             int priority;
 
-
-            // =========================================
-            // ARRIVAL TIME
-            // =========================================
-
+             
             if (!int.TryParse(
                 txtArrivalTime.Text.Trim(),
                 out arrivalTime))
@@ -81,13 +59,7 @@ namespace OS_Project.Forms
 
                 txtArrivalTime.Focus();
                 return;
-            }
-
-
-            // =========================================
-            // BURST TIME
-            // =========================================
-
+            } 
             if (!int.TryParse(
                 txtBurstTime.Text.Trim(),
                 out burstTime))
@@ -102,11 +74,7 @@ namespace OS_Project.Forms
                 return;
             }
 
-
-            // =========================================
-            // PRIORITY
-            // =========================================
-
+ 
             if (!int.TryParse(
                 txtPRIORITY.Text.Trim(),
                 out priority))
@@ -120,12 +88,7 @@ namespace OS_Project.Forms
                 txtPRIORITY.Focus();
                 return;
             }
-
-
-            // =========================================
-            // VALIDATION
-            // =========================================
-
+             
             if (arrivalTime < 0)
             {
                 MessageBox.Show(
@@ -163,20 +126,11 @@ namespace OS_Project.Forms
                 txtPRIORITY.Focus();
                 return;
             }
-
-
-            // =========================================
-            // GENERATE PROCESS ID
-            // =========================================
-
+             
             int processId =
                 dgvProcesses.Rows.Count + 1;
 
-
-            // =========================================
-            // ADD PROCESS TO TABLE
-            // =========================================
-
+             
             dgvProcesses.Rows.Add(
                 processId,
                 arrivalTime,
@@ -187,23 +141,14 @@ namespace OS_Project.Forms
                 ""
             );
 
-
-            // =========================================
-            // CLEAR INPUTS
-            // =========================================
-
+             
             txtArrivalTime.Clear();
             txtBurstTime.Clear();
             txtPRIORITY.Clear();
 
             txtArrivalTime.Focus();
         }
-
-
-        // =========================================================
-        // DELETE BUTTON
-        // =========================================================
-
+         
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvProcesses.SelectedRows.Count == 0)
@@ -218,8 +163,7 @@ namespace OS_Project.Forms
             }
 
 
-            // Delete selected rows
-            foreach (DataGridViewRow row
+             foreach (DataGridViewRow row
                 in dgvProcesses.SelectedRows)
             {
                 if (!row.IsNewRow)
@@ -227,12 +171,7 @@ namespace OS_Project.Forms
                     dgvProcesses.Rows.Remove(row);
                 }
             }
-
-
-            // =========================================
-            // RE-NUMBER PROCESS IDs
-            // =========================================
-
+              
             for (int i = 0;
                 i < dgvProcesses.Rows.Count;
                 i++)
@@ -242,22 +181,13 @@ namespace OS_Project.Forms
                     .Value = i + 1;
             }
 
-
-            // =========================================
-            // RESET AVERAGES
-            // =========================================
-
+             
             lblAverageWaiting.Text =
                 "Average Waiting Time:";
 
             lblAverageTurnaround.Text =
                 "Average Turnaround Time:";
-
-
-            // =========================================
-            // CLEAR GANTT CHART
-            // =========================================
-
+             
             pnlGanttChart.Controls.Clear();
 
             pnlGanttChart.AutoScrollMinSize =
@@ -266,11 +196,7 @@ namespace OS_Project.Forms
             pnlGanttChart.Invalidate();
         }
 
-
-        // =========================================================
-        // CALCULATE BUTTON
-        // =========================================================
-
+         
         private void btnCalculate_Click(object sender, EventArgs e)
         {
             if (dgvProcesses.Rows.Count == 0)
@@ -286,19 +212,11 @@ namespace OS_Project.Forms
 
 
             try
-            {
-                // =========================================
-                // CREATE PROCESS LIST
-                // =========================================
-
+            { 
                 List<Process> processes =
                     new List<Process>();
 
-
-                // =========================================
-                // READ DATA FROM GRID
-                // =========================================
-
+ 
                 foreach (DataGridViewRow row
                     in dgvProcesses.Rows)
                 {
@@ -336,50 +254,35 @@ namespace OS_Project.Forms
                     processes.Add(process);
                 }
 
-
-                // =========================================
-                // RUN PRIORITY PREEMPTIVE
-                // =========================================
-
+                 
                 List<Process> results =
                     PriorityPreemptive.Schedule(
                         processes);
 
-
-                // =========================================
-                // DISPLAY RESULTS
-                // =========================================
-
+ 
                 for (int i = 0;
                     i < results.Count;
                     i++)
                 {
-                    // CT
-                    dgvProcesses.Rows[i]
+                     dgvProcesses.Rows[i]
                         .Cells[4]
                         .Value =
                         results[i].CompletionTime;
 
 
-                    // TAT
-                    dgvProcesses.Rows[i]
+                     dgvProcesses.Rows[i]
                         .Cells[5]
                         .Value =
                         results[i].TurnaroundTime;
 
 
-                    // WT
-                    dgvProcesses.Rows[i]
+                     dgvProcesses.Rows[i]
                         .Cells[6]
                         .Value =
                         results[i].WaitingTime;
                 }
 
-
-                // =========================================
-                // CALCULATE AVERAGES
-                // =========================================
-
+                 
                 double totalWaitingTime = 0;
                 double totalTurnaroundTime = 0;
 
@@ -404,11 +307,7 @@ namespace OS_Project.Forms
                     totalTurnaroundTime /
                     results.Count;
 
-
-                // =========================================
-                // DISPLAY AVERAGES
-                // =========================================
-
+ 
                 lblAverageWaiting.Text =
                     "Average Waiting Time: " +
                     averageWaitingTime.ToString("0.##");
@@ -418,11 +317,7 @@ namespace OS_Project.Forms
                     "Average Turnaround Time: " +
                     averageTurnaroundTime.ToString("0.##");
 
-
-                // =========================================
-                // DRAW GANTT CHART
-                // =========================================
-
+ 
                 DrawGanttChart();
             }
             catch (Exception ex)
@@ -436,15 +331,10 @@ namespace OS_Project.Forms
             }
         }
 
-
-        // =========================================================
-        // DRAW GANTT CHART
-        // =========================================================
-
+ 
         private void DrawGanttChart()
         {
-            // Clear old chart
-            pnlGanttChart.Controls.Clear();
+             pnlGanttChart.Controls.Clear();
 
             if (PriorityPreemptive.GanttChart == null ||
                 PriorityPreemptive.GanttChart.Count == 0)
@@ -456,11 +346,7 @@ namespace OS_Project.Forms
                 return;
             }
 
-
-            // =========================================
-            // SETTINGS
-            // =========================================
-
+             
             int x = 10;
             int y = 15;
 
@@ -469,23 +355,14 @@ namespace OS_Project.Forms
 
             int gap = 0;
 
-
-            // =========================================
-            // DRAW GANTT BLOCKS
-            // =========================================
-
+ 
             foreach (string item in PriorityPreemptive.GanttChart)
             {
                 string processName = "";
                 string startTime = "";
                 string endTime = "";
 
-
-                // =====================================
-                // PARSE:
-                // P1 (0 - 2)
-                // =====================================
-
+ 
                 int openBracket =
                     item.IndexOf('(');
 
@@ -520,15 +397,10 @@ namespace OS_Project.Forms
                 }
                 else
                 {
-                    // For Idle
-                    processName = item;
+                     processName = item;
                 }
 
-
-                // =====================================
-                // CREATE BOX
-                // =====================================
-
+                 
                 Panel box =
                     new Panel();
 
@@ -544,11 +416,7 @@ namespace OS_Project.Forms
                 box.BackColor =
                     Color.MistyRose;
 
-
-                // =====================================
-                // PROCESS NAME
-                // =====================================
-
+                 
                 Label processLabel =
                     new Label();
 
@@ -575,11 +443,7 @@ namespace OS_Project.Forms
                 processLabel.BackColor =
                     Color.Transparent;
 
-
-                // =====================================
-                // TIME LABEL
-                // =====================================
-
+ 
                 Label timeLabel =
                     new Label();
 
@@ -614,30 +478,17 @@ namespace OS_Project.Forms
                 timeLabel.BackColor =
                     Color.Transparent;
 
-
-                // =====================================
-                // ADD LABELS TO BOX
-                // =====================================
-
+ 
                 box.Controls.Add(processLabel);
                 box.Controls.Add(timeLabel);
 
-
-                // =====================================
-                // ADD BOX TO GANTT PANEL
-                // =====================================
-
+ 
                 pnlGanttChart.Controls.Add(box);
 
 
-                // Move to next box
-                x += boxWidth + gap;
+                 x += boxWidth + gap;
             }
 
-
-            // =========================================
-            // SCROLL AREA
-            // =========================================
 
             pnlGanttChart.AutoScrollMinSize =
                 new Size(
@@ -648,10 +499,7 @@ namespace OS_Project.Forms
         }
 
 
-        // =========================================================
-        // OLD / DESIGNER EVENTS
-        // =========================================================
-
+         
         private void PriorityPreemptiveForm_Load(
             object sender,
             EventArgs e)

@@ -8,13 +8,7 @@ namespace OS_Project.Algorithms
 {
     public static class PriorityPreemptive
     {
-        // Gantt Chart
-        // Example:
-        // P1 (0 - 2)
-        // P2 (2 - 6)
-        // P3 (6 - 7)
-        // P1 (7 - 12)
-        // P4 (12 - 16)
+       
 
         public static List<string> GanttChart =
             new List<string>();
@@ -32,16 +26,8 @@ namespace OS_Project.Algorithms
                 return result;
             }
 
-            // =========================================
-            // CLEAR OLD GANTT CHART
-            // =========================================
-
             GanttChart.Clear();
 
-
-            // =========================================
-            // CREATE COPY
-            // =========================================
 
             List<Process> remainingProcesses =
                 processes
@@ -63,18 +49,9 @@ namespace OS_Project.Algorithms
             int completed = 0;
 
 
-            // =========================================
-            // VARIABLES FOR GANTT CHART
-            // =========================================
-
             int ganttStartTime = 0;
             int lastProcessId = -1;
 
-
-            // =========================================
-            // PRIORITY PREEMPTIVE
-            // Smaller Priority Number = Higher Priority
-            // =========================================
 
             while (completed < remainingProcesses.Count)
             {
@@ -89,14 +66,10 @@ namespace OS_Project.Algorithms
                     .ToList();
 
 
-                // =========================================
-                // CPU IDLE
-                // =========================================
-
+                
                 if (availableProcesses.Count == 0)
                 {
-                    // If another process was running,
-                    // close its Gantt block first
+                    
                     if (lastProcessId != -1)
                     {
                         GanttChart.Add(
@@ -110,7 +83,6 @@ namespace OS_Project.Algorithms
                         lastProcessId = -1;
                     }
 
-                    // Start Idle block
                     if (GanttChart.Count == 0 ||
                         !GanttChart.Last().StartsWith("Idle"))
                     {
@@ -123,21 +95,11 @@ namespace OS_Project.Algorithms
                 }
 
 
-                // =========================================
-                // SELECT HIGHEST PRIORITY
-                // =========================================
-
                 Process currentProcess =
                     availableProcesses[0];
 
-
-                // =========================================
-                // PROCESS CHANGED
-                // =========================================
-
                 if (lastProcessId != currentProcess.Id)
                 {
-                    // Close previous process block
                     if (lastProcessId != -1)
                     {
                         GanttChart.Add(
@@ -149,24 +111,15 @@ namespace OS_Project.Algorithms
                             ")");
                     }
 
-                    // Start new process block
                     ganttStartTime = currentTime;
                     lastProcessId = currentProcess.Id;
                 }
 
 
-                // =========================================
-                // EXECUTE ONE TIME UNIT
-                // =========================================
-
                 currentProcess.RemainingTime--;
 
                 currentTime++;
 
-
-                // =========================================
-                // PROCESS COMPLETED
-                // =========================================
 
                 if (currentProcess.RemainingTime == 0)
                 {
@@ -177,10 +130,6 @@ namespace OS_Project.Algorithms
                 }
             }
 
-
-            // =========================================
-            // CLOSE LAST GANTT BLOCK
-            // =========================================
 
             if (lastProcessId != -1)
             {
@@ -194,17 +143,10 @@ namespace OS_Project.Algorithms
             }
 
 
-            // =========================================
-            // CALCULATE TAT & WT
-            // =========================================
-
+            
             StatisticsCalculator.CalculateTimes(
                 remainingProcesses);
 
-
-            // =========================================
-            // RETURN SORTED BY PROCESS ID
-            // =========================================
 
             result =
                 remainingProcesses

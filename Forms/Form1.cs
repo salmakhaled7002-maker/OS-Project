@@ -9,11 +9,7 @@ namespace OS_Project
         public Form1()
         {
             InitializeComponent();
-
-            // =========================================
-            // CONNECT BUTTON EVENTS
-            // =========================================
-
+ 
             btnRoundRobin.Click -= btnRoundRobin_Click;
             btnRoundRobin.Click += btnRoundRobin_Click;
 
@@ -33,11 +29,7 @@ namespace OS_Project
             btnFCFS.Click += btnFCFS_Click;
         }
 
-
-        // =========================================
-        // ROUND ROBIN
-        // =========================================
-
+         
         private void btnRoundRobin_Click(
             object sender,
             EventArgs e)
@@ -48,11 +40,7 @@ namespace OS_Project
             form.Show();
         }
 
-
-        // =========================================
-        // SJF PREEMPTIVE
-        // =========================================
-
+ 
         private void btnSJFPreemptive_Click(
             object sender,
             EventArgs e)
@@ -63,11 +51,7 @@ namespace OS_Project
             form.Show();
         }
 
-
-        // =========================================
-        // PRIORITY PREEMPTIVE
-        // =========================================
-
+         
         private void btnPriorityPreemptive_Click(
             object sender,
             EventArgs e)
@@ -79,10 +63,7 @@ namespace OS_Project
         }
 
 
-        // =========================================
-        // SJF NON-PREEMPTIVE
-        // =========================================
-
+         
         private void btnSJFNonPre_Click(
             object sender,
             EventArgs e)
@@ -93,11 +74,7 @@ namespace OS_Project
             form.Show();
         }
 
-
-        // =========================================
-        // PRIORITY NON-PREEMPTIVE
-        // =========================================
-
+         
         private void btnPriorityNonPre_Click(
             object sender,
             EventArgs e)
@@ -108,11 +85,7 @@ namespace OS_Project
             form.Show();
         }
 
-
-        // =========================================
-        // FCFS
-        // =========================================
-
+ 
         private void btnFCFS_Click(
             object sender,
             EventArgs e)

@@ -9,17 +9,11 @@ namespace OS_Project.Algorithms
 {
     public static class First_come_first_serve
     {
-        // =========================================================
-        // GANTT CHART
-        // =========================================================
+        
 
         public static List<string> GanttChart =
             new List<string>();
 
-
-        // =========================================================
-        // FCFS CALCULATION
-        // =========================================================
 
         public static List<Process> Calculate(
             List<Process> processes)
@@ -30,11 +24,9 @@ namespace OS_Project.Algorithms
                 return new List<Process>();
             }
 
-            // Clear old Gantt Chart
             GanttChart.Clear();
 
 
-            // Sort by Arrival Time
             List<Process> result =
                 processes
                 .OrderBy(p => p.ArrivalTime)
@@ -45,30 +37,19 @@ namespace OS_Project.Algorithms
             int currentTime = 0;
 
 
-            // =====================================================
-            // FCFS
-            // =====================================================
+         
 
             foreach (Process process in result)
             {
-                // =================================================
-                // CPU IDLE
-                // =================================================
 
                 if (currentTime < process.ArrivalTime)
                 {
-                    // Add Idle for every idle time unit
                     while (currentTime < process.ArrivalTime)
                     {
                         GanttChart.Add("Idle");
                         currentTime++;
                     }
                 }
-
-
-                // =================================================
-                // EXECUTE PROCESS
-                // =================================================
 
                 for (int i = 0;
                      i < process.BurstTime;
@@ -81,28 +62,12 @@ namespace OS_Project.Algorithms
                 }
 
 
-                // =================================================
-                // COMPLETION TIME
-                // =================================================
-
                 process.CompletionTime =
                     currentTime;
-
-
-                // =================================================
-                // TURNAROUND TIME
-                // TAT = CT - AT
-                // =================================================
 
                 process.TurnaroundTime =
                     process.CompletionTime -
                     process.ArrivalTime;
-
-
-                // =================================================
-                // WAITING TIME
-                // WT = TAT - BT
-                // =================================================
 
                 process.WaitingTime =
                     process.TurnaroundTime -
@@ -110,16 +75,11 @@ namespace OS_Project.Algorithms
             }
 
 
-            // Return ordered by Process ID
             return result
                 .OrderBy(p => p.Id)
                 .ToList();
         }
 
-
-        // =========================================================
-        // AVERAGE WAITING TIME
-        // =========================================================
 
         public static double GetAverageWaitingTime(
             List<Process> processes)
@@ -133,11 +93,6 @@ namespace OS_Project.Algorithms
             return processes.Average(
                 p => p.WaitingTime);
         }
-
-
-        // =========================================================
-        // AVERAGE TURNAROUND TIME
-        // =========================================================
 
         public static double GetAverageTurnaroundTime(
             List<Process> processes)
