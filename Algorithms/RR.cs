@@ -25,7 +25,7 @@ namespace OS_Project.Algorithms
 
             GanttChart.Clear();
 
-            // Set remaining time
+            
             for (int i = 0; i < processes.Count; i++)
             {
                 processes[i].RemainingTime = processes[i].BurstTime;
@@ -36,26 +36,23 @@ namespace OS_Project.Algorithms
 
             while (completed < processes.Count)
             {
-                // Add processes that have arrived
+              
                 for (int i = 0; i < processes.Count; i++)
                 {
-                    if (!added[i] &&
-                        processes[i].ArrivalTime <= currentTime)
+                    if (!added[i] && processes[i].ArrivalTime <= currentTime)
                     {
                         queue.Enqueue(i);
                         added[i] = true;
                     }
                 }
 
-                // If queue is empty, move to next arrival
                 if (queue.Count == 0)
                 {
                     int nextArrival = int.MaxValue;
 
                     for (int i = 0; i < processes.Count; i++)
                     {
-                        if (!added[i] &&
-                            processes[i].ArrivalTime < nextArrival)
+                        if (!added[i] && processes[i].ArrivalTime < nextArrival)
                         {
                             nextArrival = processes[i].ArrivalTime;
                         }
@@ -65,8 +62,7 @@ namespace OS_Project.Algorithms
 
                     for (int i = 0; i < processes.Count; i++)
                     {
-                        if (!added[i] &&
-                            processes[i].ArrivalTime <= currentTime)
+                        if (!added[i] && processes[i].ArrivalTime <= currentTime)
                         {
                             queue.Enqueue(i);
                             added[i] = true;
@@ -74,12 +70,11 @@ namespace OS_Project.Algorithms
                     }
                 }
 
-                // Get first process
+               
                 int p = queue.Dequeue();
 
                 int startTime = currentTime;
 
-                // Run for quantum or remaining time
                 int executionTime;
 
                 if (processes[p].RemainingTime > quantum)
@@ -95,25 +90,17 @@ namespace OS_Project.Algorithms
 
                 processes[p].RemainingTime -= executionTime;
 
-                // Save Gantt Chart information
-                GanttChart.Add(
-                    "P" + processes[p].Id +
-                    " (" + startTime +
-                    " - " + currentTime + ")"
-                );
+                GanttChart.Add("P" + processes[p].Id +" (" + startTime +" - " + currentTime + ")");
 
-                // Add newly arrived processes
                 for (int i = 0; i < processes.Count; i++)
                 {
-                    if (!added[i] &&
-                        processes[i].ArrivalTime <= currentTime)
+                    if (!added[i] && processes[i].ArrivalTime <= currentTime)
                     {
                         queue.Enqueue(i);
                         added[i] = true;
                     }
                 }
 
-                // If process is not finished
                 if (processes[p].RemainingTime > 0)
                 {
                     queue.Enqueue(p);
@@ -125,16 +112,11 @@ namespace OS_Project.Algorithms
                 }
             }
 
-            // Calculate TAT and WT
             for (int i = 0; i < processes.Count; i++)
             {
-                processes[i].TurnaroundTime =
-                    processes[i].CompletionTime -
-                    processes[i].ArrivalTime;
+                processes[i].TurnaroundTime = processes[i].CompletionTime - processes[i].ArrivalTime;
 
-                processes[i].WaitingTime =
-                    processes[i].TurnaroundTime -
-                    processes[i].BurstTime;
+                processes[i].WaitingTime = processes[i].TurnaroundTime - processes[i].BurstTime;
             }
         }
     }

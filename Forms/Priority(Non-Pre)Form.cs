@@ -270,7 +270,7 @@ namespace OS_Project.Forms
         }
         private void DrawGanttChart(List<string> ganttChart)
 {
-    pnlGanttChart.Controls.Clear();
+            pnlGanttChart.Controls.Clear();
 
     if (ganttChart == null || ganttChart.Count == 0)
     {
