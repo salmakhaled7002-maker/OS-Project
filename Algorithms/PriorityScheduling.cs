@@ -8,26 +8,21 @@ namespace OS_Project.Algorithms
 {
     public static class PriorityScheduling
     {
-        public static List<string> GanttChart =
-            new List<string>();
+        public static List<string> GanttChart = new List<string>();
 
-        public static List<Process> Schedule(
-            List<Process> processes)
+        public static List<Process> Schedule( List<Process> processes)
         {
-            List<Process> result =
-                new List<Process>();
+            List<Process> result = new List<Process>();
 
-            if (processes == null ||
-                processes.Count == 0)
+            if (processes == null || processes.Count == 0)
             {
                 return result;
             }
 
             GanttChart.Clear();
 
-            List<Process> remainingProcesses =
-                processes
-                .Select(p => new Process
+            List<Process> remainingProcesses = processes.Select(
+                p => new Process
                 {
                     Id = p.Id,
                     ArrivalTime = p.ArrivalTime,
@@ -45,11 +40,8 @@ namespace OS_Project.Algorithms
 
             while (completed < remainingProcesses.Count)
             {
-                List<Process> availableProcesses =
-                    remainingProcesses
-                    .Where(p =>
-                        p.ArrivalTime <= currentTime &&
-                        p.RemainingTime > 0)
+                List<Process> availableProcesses = remainingProcesses
+                    .Where(p =>p.ArrivalTime <= currentTime && p.RemainingTime > 0)
                     .OrderBy(p => p.Priority)
                     .ThenBy(p => p.ArrivalTime)
                     .ThenBy(p => p.Id)
@@ -60,44 +52,27 @@ namespace OS_Project.Algorithms
                     GanttChart.Add("Idle");
 
                     int nextArrival =
-                        remainingProcesses
-                        .Where(p =>
-                            p.RemainingTime > 0 &&
-                            p.ArrivalTime > currentTime)
+                        remainingProcesses.Where(p =>p.RemainingTime > 0 && p.ArrivalTime > currentTime)
                         .Min(p => p.ArrivalTime);
 
                     currentTime = nextArrival;
                     continue;
                 }
 
-                Process currentProcess =
-                    availableProcesses[0];
-
+                Process currentProcess = availableProcesses[0];
                 int startTime = currentTime;
-
                 currentTime += currentProcess.BurstTime;
                 currentProcess.RemainingTime = 0;
-
-                currentProcess.CompletionTime =
-                    currentTime;
+                currentProcess.CompletionTime = currentTime;
 
                 completed++;
 
-                GanttChart.Add(
-                    "P" + currentProcess.Id +
-                    " (" +
-                    startTime +
-                    " - " +
-                    currentTime +
-                    ")"
-                );
+                GanttChart.Add( "P" + currentProcess.Id +" (" + startTime + " - " + currentTime +")" );
             }
 
-            StatisticsCalculator.CalculateTimes(
-                remainingProcesses);
+            StatisticsCalculator.CalculateTimes(remainingProcesses);
 
-            result =
-                remainingProcesses
+            result = remainingProcesses
                 .OrderBy(p => p.Id)
                 .ToList();
 

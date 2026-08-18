@@ -25,16 +25,9 @@ namespace OS_Project.Forms
             dgvProcesses.AllowUserToAddRows = false;
             dgvProcesses.ReadOnly = true;
             dgvProcesses.MultiSelect = false;
-
-            dgvProcesses.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-
-            dgvProcesses.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
-
-            dgvProcesses.ScrollBars =
-                ScrollBars.Vertical;
-
+            dgvProcesses.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProcesses.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProcesses.ScrollBars = ScrollBars.Vertical;
             pnlGanttChart.AutoScroll = true;
         }
         private void btnSubmit_Click(object sender, EventArgs e)
