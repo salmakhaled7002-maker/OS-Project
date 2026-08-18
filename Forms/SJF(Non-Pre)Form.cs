@@ -80,7 +80,6 @@ namespace OS_Project.Forms
             }
             int processId = dgvProcesses.Rows.Count + 1;
             dgvProcesses.Rows.Add( processId, arrivalTime, burstTime,"","","");
-
             txtArrivalTime.Clear();
             txtBurstTime.Clear();
             txtArrivalTime.Focus();
@@ -105,19 +104,12 @@ namespace OS_Project.Forms
                     dgvProcesses.Rows.Remove(row);
                 }
             }
-            for (int i = 0;
-                i < dgvProcesses.Rows.Count;
-                i++)
+            for (int i = 0; i < dgvProcesses.Rows.Count; i++)
             {
-                dgvProcesses.Rows[i]
-                    .Cells[0]
-                    .Value = i + 1;
+                dgvProcesses.Rows[i].Cells[0].Value = i + 1;
             }
-            lblAverageWaiting.Text =
-                "Average Waiting Time:";
-
-            lblAverageTurnaround.Text =
-                "Average Turnaround Time:";
+            lblAverageWaiting.Text ="Average Waiting Time:";
+            lblAverageTurnaround.Text ="Average Turnaround Time:";
 
             for (int i = 0;i < dgvProcesses.Rows.Count;i++)
             {
@@ -126,10 +118,7 @@ namespace OS_Project.Forms
                 dgvProcesses.Rows[i].Cells[5].Value = "";
             }
             pnlGanttChart.Controls.Clear();
-
-            pnlGanttChart.AutoScrollMinSize =
-                new Size(0, 0);
-
+            pnlGanttChart.AutoScrollMinSize = new Size(0, 0);
             pnlGanttChart.Invalidate();
             SJF.GanttChart.Clear();
         }
@@ -147,7 +136,6 @@ namespace OS_Project.Forms
             }
             try
             {
-
                 List<Process> processes = new List<Process>();
                 foreach (DataGridViewRow row
                     in dgvProcesses.Rows)
@@ -160,14 +148,12 @@ namespace OS_Project.Forms
 
                     int burstTime = Convert.ToInt32(row.Cells[2].Value);
                     Process process = new Process
-                        {
+                    {
                             Id = id,
                             ArrivalTime = arrivalTime,
                             BurstTime = burstTime,
                             RemainingTime = burstTime
-                        };
-
-
+                    };
                     processes.Add(process);
                 }
                 List<Process> results = SJF.Schedule(processes);
@@ -189,8 +175,6 @@ namespace OS_Project.Forms
                     {
                         if (row.IsNewRow)
                             continue;
-
-
                         int id = Convert.ToInt32(row.Cells[0].Value);
                         if (id == process.Id)
                         {
@@ -201,22 +185,8 @@ namespace OS_Project.Forms
                         }
                     }
                 }
-                double averageWaitingTime =
-                    StatisticsCalculator
-                    .CalculateAverageWaitingTime(
-                        results);
-
-
-                double averageTurnaroundTime =
-                    StatisticsCalculator
-                    .CalculateAverageTurnaroundTime(
-                        results);
-
-
-                // =========================================
-                // DISPLAY AVERAGES
-                // =========================================
-
+                double averageWaitingTime =StatisticsCalculator.CalculateAverageWaitingTime(results);
+                double averageTurnaroundTime = StatisticsCalculator.CalculateAverageTurnaroundTime(results);
                 lblAverageWaiting.Text =
                     "Average Waiting Time: " +
                     averageWaitingTime.ToString("0.##");
@@ -225,12 +195,6 @@ namespace OS_Project.Forms
                 lblAverageTurnaround.Text =
                     "Average Turnaround Time: " +
                     averageTurnaroundTime.ToString("0.##");
-
-
-                // =========================================
-                // DRAW GANTT CHART
-                // =========================================
-
                 DrawGanttChart(
                     SJF.GanttChart);
             }
@@ -244,139 +208,48 @@ namespace OS_Project.Forms
                     MessageBoxIcon.Error);
             }
         }
-
-
-        // =========================================================
-        // DRAW GANTT CHART
-        // =========================================================
-
-        private void DrawGanttChart(
-            List<string> ganttChart)
+        private void DrawGanttChart(List<string> ganttChart)
         {
-            // Clear old chart
             pnlGanttChart.Controls.Clear();
-
-
-            if (ganttChart == null ||
-                ganttChart.Count == 0)
+            if (ganttChart == null || ganttChart.Count == 0)
             {
-                pnlGanttChart.AutoScrollMinSize =
-                    new Size(0, 0);
-
+                pnlGanttChart.AutoScrollMinSize = new Size(0, 0);
                 pnlGanttChart.Invalidate();
                 return;
             }
-
-
-            // =========================================
-            // SETTINGS
-            // =========================================
-
             int x = 10;
             int y = 15;
-
-            // Smaller boxes
             int boxWidth = 80;
             int boxHeight = 60;
-
             int gap = 0;
-
-
-            // =========================================
-            // DRAW EACH GANTT BLOCK
-            // =========================================
-
             foreach (string processName
                 in ganttChart)
             {
-                Panel box =
-                    new Panel();
-
-
+                Panel box = new Panel();
                 box.Left = x;
                 box.Top = y;
 
                 box.Width = boxWidth;
                 box.Height = boxHeight;
 
-                box.BorderStyle =
-                    BorderStyle.FixedSingle;
-
-                box.BackColor =
-                    Color.MistyRose;
-
-
-                // =====================================
-                // PROCESS LABEL
-                // =====================================
-
-                Label processLabel =
-                    new Label();
-
-
-                processLabel.Text =
-                    processName;
-
+                box.BorderStyle = BorderStyle.FixedSingle;
+                box.BackColor =Color.MistyRose;
+                Label processLabel = new Label();
+                processLabel.Text = processName;
                 processLabel.Left = 0;
                 processLabel.Top = 0;
-
-                processLabel.Width =
-                    boxWidth;
-
-                processLabel.Height =
-                    boxHeight;
-
-                processLabel.TextAlign =
-                    ContentAlignment.MiddleCenter;
-
-                processLabel.Font =
-                    new Font(
-                        "Arial",
-                        9,
-                        FontStyle.Bold);
-
-                processLabel.BackColor =
-                    Color.Transparent;
-
-
-                // =====================================
-                // ADD LABEL TO BOX
-                // =====================================
-
-                box.Controls.Add(
-                    processLabel);
-
-
-                // =====================================
-                // ADD BOX TO GANTT PANEL
-                // =====================================
-
-                pnlGanttChart.Controls.Add(
-                    box);
-
-
-                // Move to next box
+                processLabel.Width = boxWidth;
+                processLabel.Height = boxHeight;
+                processLabel.TextAlign = ContentAlignment.MiddleCenter;
+                processLabel.Font = new Font("Arial",9,FontStyle.Bold);
+                processLabel.BackColor = Color.Transparent;
+                box.Controls.Add( processLabel);
+                pnlGanttChart.Controls.Add( box);
                 x += boxWidth + gap;
             }
-
-
-            // =========================================
-            // SCROLL AREA
-            // =========================================
-
-            pnlGanttChart.AutoScrollMinSize =
-                new Size(
-                    x + 20,
-                    boxHeight + y + 20);
-
+            pnlGanttChart.AutoScrollMinSize =new Size(x + 20, boxHeight + y + 20);
             pnlGanttChart.Invalidate();
         }
-
-
-        // =========================================================
-        // DESIGNER / OLD EVENTS
-        // =========================================================
-
         private void SJF_Non_Pre_Form_Load(object sender,EventArgs e)
         {
         }
