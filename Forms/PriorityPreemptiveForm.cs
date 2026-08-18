@@ -28,14 +28,11 @@ namespace OS_Project.Forms
             dgvProcesses.ReadOnly = true;
             dgvProcesses.MultiSelect = false;
 
-            dgvProcesses.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
+            dgvProcesses.SelectionMode =DataGridViewSelectionMode.FullRowSelect;
 
-            dgvProcesses.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProcesses.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            dgvProcesses.ScrollBars =
-                ScrollBars.Vertical;
+            dgvProcesses.ScrollBars =ScrollBars.Vertical;
              
             pnlGanttChart.AutoScroll = true;
         }
@@ -47,37 +44,19 @@ namespace OS_Project.Forms
             int priority;
 
              
-            if (!int.TryParse(
-                txtArrivalTime.Text.Trim(),
-                out arrivalTime))
+            if (!int.TryParse(txtArrivalTime.Text.Trim(), out arrivalTime))
             {
-                MessageBox.Show(
-                    "Please enter a valid Arrival Time.",
-                    "Invalid Input",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Please enter a valid Arrival Time.","Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtArrivalTime.Focus();
                 return;
             } 
-            if (!int.TryParse(
-                txtBurstTime.Text.Trim(),
-                out burstTime))
+            if (!int.TryParse( txtBurstTime.Text.Trim(),out burstTime))
             {
-                MessageBox.Show(
-                    "Please enter a valid Burst Time.",
-                    "Invalid Input",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Please enter a valid Burst Time.","Invalid Input",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 txtBurstTime.Focus();
                 return;
             }
-
- 
-            if (!int.TryParse(
-                txtPRIORITY.Text.Trim(),
-                out priority))
+            if (!int.TryParse(txtPRIORITY.Text.Trim(),out priority))
             {
                 MessageBox.Show(
                     "Please enter a valid Priority.",
@@ -88,7 +67,6 @@ namespace OS_Project.Forms
                 txtPRIORITY.Focus();
                 return;
             }
-             
             if (arrivalTime < 0)
             {
                 MessageBox.Show(
@@ -100,8 +78,6 @@ namespace OS_Project.Forms
                 txtArrivalTime.Focus();
                 return;
             }
-
-
             if (burstTime <= 0)
             {
                 MessageBox.Show(
@@ -113,8 +89,6 @@ namespace OS_Project.Forms
                 txtBurstTime.Focus();
                 return;
             }
-
-
             if (priority < 0)
             {
                 MessageBox.Show(
@@ -126,26 +100,11 @@ namespace OS_Project.Forms
                 txtPRIORITY.Focus();
                 return;
             }
-             
-            int processId =
-                dgvProcesses.Rows.Count + 1;
-
-             
-            dgvProcesses.Rows.Add(
-                processId,
-                arrivalTime,
-                burstTime,
-                priority,
-                "",
-                "",
-                ""
-            );
-
-             
+            int processId = dgvProcesses.Rows.Count + 1;
+            dgvProcesses.Rows.Add( processId, arrivalTime, burstTime, priority,"","", "");            
             txtArrivalTime.Clear();
             txtBurstTime.Clear();
             txtPRIORITY.Clear();
-
             txtArrivalTime.Focus();
         }
          
@@ -161,37 +120,25 @@ namespace OS_Project.Forms
 
                 return;
             }
-
-
-             foreach (DataGridViewRow row
-                in dgvProcesses.SelectedRows)
-            {
+             foreach (DataGridViewRow row in dgvProcesses.SelectedRows)
+             {
                 if (!row.IsNewRow)
                 {
                     dgvProcesses.Rows.Remove(row);
                 }
-            }
+             }
               
-            for (int i = 0;
-                i < dgvProcesses.Rows.Count;
-                i++)
+            for (int i = 0;i < dgvProcesses.Rows.Count;i++)
             {
-                dgvProcesses.Rows[i]
-                    .Cells[0]
-                    .Value = i + 1;
+                dgvProcesses.Rows[i].Cells[0].Value = i + 1;
             }
+            lblAverageWaiting.Text ="Average Waiting Time:";
 
-             
-            lblAverageWaiting.Text =
-                "Average Waiting Time:";
-
-            lblAverageTurnaround.Text =
-                "Average Turnaround Time:";
+            lblAverageTurnaround.Text ="Average Turnaround Time:";
              
             pnlGanttChart.Controls.Clear();
 
-            pnlGanttChart.AutoScrollMinSize =
-                new Size(0, 0);
+            pnlGanttChart.AutoScrollMinSize = new Size(0, 0);
 
             pnlGanttChart.Invalidate();
         }
@@ -209,110 +156,49 @@ namespace OS_Project.Forms
 
                 return;
             }
-
-
             try
             { 
-                List<Process> processes =
-                    new List<Process>();
-
- 
-                foreach (DataGridViewRow row
-                    in dgvProcesses.Rows)
+                List<Process> processes = new List<Process>();
+                foreach (DataGridViewRow row in dgvProcesses.Rows)
                 {
                     if (row.IsNewRow)
                         continue;
+                    int id = Convert.ToInt32(row.Cells[0].Value);
 
+                    int arrivalTime =Convert.ToInt32(row.Cells[1].Value);
 
-                    int id =
-                        Convert.ToInt32(
-                            row.Cells[0].Value);
+                    int burstTime =Convert.ToInt32(row.Cells[2].Value);
 
-                    int arrivalTime =
-                        Convert.ToInt32(
-                            row.Cells[1].Value);
-
-                    int burstTime =
-                        Convert.ToInt32(
-                            row.Cells[2].Value);
-
-                    int priority =
-                        Convert.ToInt32(
-                            row.Cells[3].Value);
-
-
-                    Process process =
-                        new Process
+                    int priority = Convert.ToInt32(row.Cells[3].Value);
+                    Process process =new Process
                         {
                             Id = id,
                             ArrivalTime = arrivalTime,
                             BurstTime = burstTime,
                             Priority = priority
                         };
-
-
                     processes.Add(process);
-                }
-
-                 
-                List<Process> results =
-                    PriorityPreemptive.Schedule(
-                        processes);
-
- 
-                for (int i = 0;
-                    i < results.Count;
-                    i++)
+                }             
+                List<Process> results = PriorityPreemptive.Schedule( processes);
+                for (int i = 0;i < results.Count; i++)
                 {
-                     dgvProcesses.Rows[i]
-                        .Cells[4]
-                        .Value =
-                        results[i].CompletionTime;
-
-
-                     dgvProcesses.Rows[i]
-                        .Cells[5]
-                        .Value =
-                        results[i].TurnaroundTime;
-
-
-                     dgvProcesses.Rows[i]
-                        .Cells[6]
-                        .Value =
-                        results[i].WaitingTime;
+                     dgvProcesses.Rows[i].Cells[4].Value =results[i].CompletionTime;
+                     dgvProcesses.Rows[i].Cells[5].Value =results[i].TurnaroundTime;
+                     dgvProcesses.Rows[i].Cells[6].Value = results[i].WaitingTime;
                 }
-
-                 
                 double totalWaitingTime = 0;
                 double totalTurnaroundTime = 0;
-
-
-                foreach (Process process
-                    in results)
+                foreach (Process process in results)
                 {
-                    totalWaitingTime +=
-                        process.WaitingTime;
+                    totalWaitingTime += process.WaitingTime;
 
-                    totalTurnaroundTime +=
-                        process.TurnaroundTime;
+                    totalTurnaroundTime += process.TurnaroundTime;
                 }
-
-
-                double averageWaitingTime =
-                    totalWaitingTime /
-                    results.Count;
-
-
-                double averageTurnaroundTime =
-                    totalTurnaroundTime /
-                    results.Count;
-
- 
+                double averageWaitingTime =totalWaitingTime /results.Count;
+                double averageTurnaroundTime = totalTurnaroundTime /results.Count;
                 lblAverageWaiting.Text =
                     "Average Waiting Time: " +
                     averageWaitingTime.ToString("0.##");
-
-
                 lblAverageTurnaround.Text =
                     "Average Turnaround Time: " +
                     averageTurnaroundTime.ToString("0.##");
@@ -336,12 +222,9 @@ namespace OS_Project.Forms
         {
              pnlGanttChart.Controls.Clear();
 
-            if (PriorityPreemptive.GanttChart == null ||
-                PriorityPreemptive.GanttChart.Count == 0)
+            if (PriorityPreemptive.GanttChart == null || PriorityPreemptive.GanttChart.Count == 0)
             {
-                pnlGanttChart.AutoScrollMinSize =
-                    new Size(0, 0);
-
+                pnlGanttChart.AutoScrollMinSize =new Size(0, 0);
                 pnlGanttChart.Invalidate();
                 return;
             }
@@ -361,97 +244,52 @@ namespace OS_Project.Forms
                 string processName = "";
                 string startTime = "";
                 string endTime = "";
-
- 
-                int openBracket =
-                    item.IndexOf('(');
-
-                int dash =
-                    item.IndexOf('-');
-
-                int closeBracket =
-                    item.IndexOf(')');
-
-
-                if (openBracket >= 0 &&
-                    dash >= 0 &&
-                    closeBracket >= 0)
+                int openBracket =item.IndexOf('(');
+                int dash = item.IndexOf('-');
+                int closeBracket = item.IndexOf(')');
+                if (openBracket >= 0 && dash >= 0 && closeBracket >= 0)
                 {
-                    processName =
-                        item.Substring(
-                            0,
-                            openBracket)
-                        .Trim();
+                    processName = item.Substring(0,openBracket).Trim();
 
-                    startTime =
-                        item.Substring(
-                            openBracket + 1,
-                            dash - openBracket - 1)
-                        .Trim();
+                    startTime = item.Substring(openBracket + 1, dash - openBracket - 1).Trim();
 
-                    endTime =
-                        item.Substring(
-                            dash + 1,
-                            closeBracket - dash - 1)
-                        .Trim();
+                    endTime =item.Substring( dash + 1,closeBracket - dash - 1).Trim();
                 }
                 else
                 {
                      processName = item;
                 }
-
-                 
-                Panel box =
-                    new Panel();
-
+                Panel box =new Panel();
                 box.Left = x;
                 box.Top = y;
 
                 box.Width = boxWidth;
                 box.Height = boxHeight;
 
-                box.BorderStyle =
-                    BorderStyle.FixedSingle;
+                box.BorderStyle = BorderStyle.FixedSingle;
 
-                box.BackColor =
-                    Color.MistyRose;
+                box.BackColor = Color.MistyRose;
+                Label processLabel =new Label();
 
-                 
-                Label processLabel =
-                    new Label();
-
-                processLabel.Text =
-                    processName;
+                processLabel.Text =processName;
 
                 processLabel.Left = 0;
                 processLabel.Top = 0;
 
-                processLabel.Width =
-                    boxWidth;
+                processLabel.Width =boxWidth;
 
                 processLabel.Height = 45;
 
-                processLabel.TextAlign =
-                    ContentAlignment.MiddleCenter;
+                processLabel.TextAlign = ContentAlignment.MiddleCenter;
 
-                processLabel.Font =
-                    new Font(
-                        "Arial",
-                        12,
-                        FontStyle.Bold);
+                processLabel.Font = new Font("Arial",12,FontStyle.Bold);
 
-                processLabel.BackColor =
-                    Color.Transparent;
+                processLabel.BackColor = Color.Transparent;
+                Label timeLabel =new Label();
 
- 
-                Label timeLabel =
-                    new Label();
-
-                if (startTime != "" &&
-                    endTime != "")
+                if (startTime != "" && endTime != "")
                 {
-                    timeLabel.Text =
-                        startTime + " - " + endTime;
+                    timeLabel.Text = startTime + " - " + endTime;
                 }
                 else
                 {
@@ -461,76 +299,35 @@ namespace OS_Project.Forms
                 timeLabel.Left = 0;
                 timeLabel.Top = 45;
 
-                timeLabel.Width =
-                    boxWidth;
+                timeLabel.Width = boxWidth;
 
                 timeLabel.Height = 30;
 
-                timeLabel.TextAlign =
-                    ContentAlignment.MiddleCenter;
+                timeLabel.TextAlign = ContentAlignment.MiddleCenter;
 
-                timeLabel.Font =
-                    new Font(
-                        "Arial",
-                        9,
-                        FontStyle.Regular);
-
-                timeLabel.BackColor =
-                    Color.Transparent;
-
- 
+                timeLabel.Font =new Font("Arial",9,FontStyle.Regular);
+                timeLabel.BackColor = Color.Transparent;
                 box.Controls.Add(processLabel);
                 box.Controls.Add(timeLabel);
-
- 
                 pnlGanttChart.Controls.Add(box);
-
-
                  x += boxWidth + gap;
             }
-
-
-            pnlGanttChart.AutoScrollMinSize =
-                new Size(
-                    x + 20,
-                    boxHeight + y + 20);
-
+            pnlGanttChart.AutoScrollMinSize = new Size( x + 20, boxHeight + y + 20);
             pnlGanttChart.Invalidate();
         }
-
-
-         
-        private void PriorityPreemptiveForm_Load(
-            object sender,
-            EventArgs e)
+        private void PriorityPreemptiveForm_Load(object sender, EventArgs e)
         {
         }
-
-
-        private void txtBurstTime_TextChanged(
-            object sender,
-            EventArgs e)
+        private void txtBurstTime_TextChanged(object sender,EventArgs e)
         {
         }
-
-
-        private void lblAverageTurnaround_Click(
-            object sender,
-            EventArgs e)
+        private void lblAverageTurnaround_Click(object sender,EventArgs e)
         {
         }
-
-
-        private void label1_Click(
-            object sender,
-            EventArgs e)
+        private void label1_Click(object sender,EventArgs e)
         {
         }
-
-
-        private void label2_Click(
-            object sender,
-            EventArgs e)
+        private void label2_Click( object sender,EventArgs e)
         {
         }
     }
