@@ -10,6 +10,10 @@ namespace OS_Project
         {
             InitializeComponent();
 
+            // =========================================
+            // CONNECT BUTTON EVENTS
+            // =========================================
+
             btnRoundRobin.Click -= btnRoundRobin_Click;
             btnRoundRobin.Click += btnRoundRobin_Click;
 
@@ -29,32 +33,79 @@ namespace OS_Project
             btnFCFS.Click += btnFCFS_Click;
         }
 
-        private void btnRoundRobin_Click(object sender,EventArgs e)
+
+        // =========================================
+        // ROUND ROBIN
+        // =========================================
+
+        private void btnRoundRobin_Click(
+            object sender,
+            EventArgs e)
         {
             RoundRobinForm form = new RoundRobinForm();
             form.Show();
         }
-        private void btnSJFPreemptive_Click(object sender,EventArgs e)
+
+
+        // =========================================
+        // SJF PREEMPTIVE
+        // =========================================
+
+        private void btnSJFPreemptive_Click(
+            object sender,
+            EventArgs e)
         {
             SJFPreemptiveForm form =new SJFPreemptiveForm();
             form.Show();
         }
-        private void btnPriorityPreemptive_Click(object sender, EventArgs e)
+
+
+        // =========================================
+        // PRIORITY PREEMPTIVE
+        // =========================================
+
+        private void btnPriorityPreemptive_Click(
+            object sender,
+            EventArgs e)
         {
             PriorityPreemptiveForm form = new PriorityPreemptiveForm();
             form.Show();
         }
-        private void btnSJFNonPre_Click(object sender,EventArgs e)
+
+
+        // =========================================
+        // SJF NON-PREEMPTIVE
+        // =========================================
+
+        private void btnSJFNonPre_Click(
+            object sender,
+            EventArgs e)
         {
             SJF_Non_Pre_Form form = new SJF_Non_Pre_Form();
             form.Show();
         }
-        private void btnPriorityNonPre_Click(object sender,EventArgs e)
+
+
+        // =========================================
+        // PRIORITY NON-PREEMPTIVE
+        // =========================================
+
+        private void btnPriorityNonPre_Click(
+            object sender,
+            EventArgs e)
         {
             Priority_Non_Pre_Form form = new Priority_Non_Pre_Form();
             form.Show();
         }
-        private void btnFCFS_Click(object sender,EventArgs e)
+
+
+        // =========================================
+        // FCFS
+        // =========================================
+
+        private void btnFCFS_Click(
+            object sender,
+            EventArgs e)
         {
             FCFSForm form = new FCFSForm();
             form.Show();

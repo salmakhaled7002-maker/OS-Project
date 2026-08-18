@@ -12,11 +12,7 @@ namespace OS_Project.Forms
         public Priority_Non_Pre_Form()
         {
             InitializeComponent();
-
-            // =========================================
-            // CONNECT BUTTON EVENTS
-            // =========================================
-
+ 
             btnSubmit.Click -= btnSubmit_Click;
             btnSubmit.Click += btnSubmit_Click;
 
@@ -25,12 +21,7 @@ namespace OS_Project.Forms
 
             btnCalculate.Click -= btnCalculate_Click;
             btnCalculate.Click += btnCalculate_Click;
-
-
-            // =========================================
-            // DATA GRID SETTINGS
-            // =========================================
-
+ 
             dgvProcesses.AllowUserToAddRows = false;
             dgvProcesses.ReadOnly = true;
             dgvProcesses.MultiSelect = false;
@@ -45,29 +36,18 @@ namespace OS_Project.Forms
                 ScrollBars.Vertical;
 
 
-            // =========================================
-            // GANTT PANEL SETTINGS
-            // =========================================
-
+            
             pnlGanttChart.AutoScroll = true;
         }
 
-
-        // =========================================================
-        // SUBMIT BUTTON
-        // =========================================================
-
+ 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             int arrivalTime;
             int burstTime;
             int priority;
 
-
-            // =========================================
-            // ARRIVAL TIME
-            // =========================================
-
+ 
             if (!int.TryParse(
                 txtArrivalTime.Text.Trim(),
                 out arrivalTime))
@@ -81,12 +61,7 @@ namespace OS_Project.Forms
                 txtArrivalTime.Focus();
                 return;
             }
-
-
-            // =========================================
-            // BURST TIME
-            // =========================================
-
+             
             if (!int.TryParse(
                 txtBurstTime.Text.Trim(),
                 out burstTime))
@@ -102,10 +77,7 @@ namespace OS_Project.Forms
             }
 
 
-            // =========================================
-            // PRIORITY
-            // =========================================
-
+ 
             if (!int.TryParse(
                 txtPRIORITY.Text.Trim(),
                 out priority))
@@ -120,11 +92,7 @@ namespace OS_Project.Forms
                 return;
             }
 
-
-            // =========================================
-            // VALIDATION
-            // =========================================
-
+             
             if (arrivalTime < 0)
             {
                 MessageBox.Show(
@@ -163,19 +131,10 @@ namespace OS_Project.Forms
                 return;
             }
 
-
-            // =========================================
-            // GENERATE PROCESS ID
-            // =========================================
-
+             
             int processId =
                 dgvProcesses.Rows.Count + 1;
-
-
-            // =========================================
-            // ADD PROCESS TO GRID
-            // =========================================
-
+             
             dgvProcesses.Rows.Add(
                 processId,
                 arrivalTime,
@@ -186,23 +145,14 @@ namespace OS_Project.Forms
                 ""
             );
 
-
-            // =========================================
-            // CLEAR INPUTS
-            // =========================================
-
+             
             txtArrivalTime.Clear();
             txtBurstTime.Clear();
             txtPRIORITY.Clear();
 
             txtArrivalTime.Focus();
         }
-
-
-        // =========================================================
-        // DELETE BUTTON
-        // =========================================================
-
+         
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvProcesses.SelectedRows.Count == 0)
@@ -215,9 +165,7 @@ namespace OS_Project.Forms
 
                 return;
             }
-
-
-            // Delete selected rows
+             
             foreach (DataGridViewRow row
                 in dgvProcesses.SelectedRows)
             {
@@ -227,11 +175,7 @@ namespace OS_Project.Forms
                 }
             }
 
-
-            // =========================================
-            // RE-NUMBER PROCESS IDs
-            // =========================================
-
+ 
             for (int i = 0;
                 i < dgvProcesses.Rows.Count;
                 i++)
@@ -240,23 +184,13 @@ namespace OS_Project.Forms
                     .Cells[0]
                     .Value = i + 1;
             }
-
-
-            // =========================================
-            // RESET AVERAGES
-            // =========================================
-
+             
             lblAverageWaiting.Text =
                 "Average Waiting Time:";
 
             lblAverageTurnaround.Text =
                 "Average Turnaround Time:";
-
-
-            // =========================================
-            // CLEAR GANTT CHART
-            // =========================================
-
+             
             pnlGanttChart.Controls.Clear();
 
             pnlGanttChart.AutoScrollMinSize =
@@ -264,12 +198,7 @@ namespace OS_Project.Forms
 
             pnlGanttChart.Invalidate();
         }
-
-
-        // =========================================================
-        // CALCULATE BUTTON
-        // =========================================================
-
+         
         private void btnCalculate_Click(object sender, EventArgs e)
         {
             if (dgvProcesses.Rows.Count == 0)
@@ -284,11 +213,7 @@ namespace OS_Project.Forms
             }
 
             List<Process> processes = new List<Process>();
-
-            // =========================================
-            // READ PROCESSES FROM DATA GRID
-            // =========================================
-
+             
             foreach (DataGridViewRow row in dgvProcesses.Rows)
             {
                 if (row.IsNewRow)
@@ -303,18 +228,10 @@ namespace OS_Project.Forms
 
                 processes.Add(process);
             }
-
-            // =========================================
-            // RUN PRIORITY NON-PREEMPTIVE ALGORITHM
-            // =========================================
-
+             
             List<Process> result =
                 PriorityScheduling.Schedule(processes);
-
-            // =========================================
-            // DISPLAY RESULTS
-            // =========================================
-
+             
             foreach (Process process in result)
             {
                 foreach (DataGridViewRow row in dgvProcesses.Rows)
@@ -334,11 +251,7 @@ namespace OS_Project.Forms
                     }
                 }
             }
-
-            // =========================================
-            // AVERAGES
-            // =========================================
-
+             
             double averageWaiting =
                 StatisticsCalculator.CalculateAverageWaitingTime(result);
 
@@ -352,11 +265,7 @@ namespace OS_Project.Forms
             lblAverageTurnaround.Text =
                 "Average Turnaround Time: " +
                 averageTurnaround.ToString("0.##");
-
-            // =========================================
-            // DRAW GANTT CHART
-            // =========================================
-
+ 
             DrawGanttChart(PriorityScheduling.GanttChart);
         }
         private void DrawGanttChart(List<string> ganttChart)
@@ -430,11 +339,7 @@ namespace OS_Project.Forms
 
     pnlGanttChart.Invalidate();
 }
-
-        // =========================================================
-        // DESIGNER / OLD EVENTS
-        // =========================================================
-
+         
         private void Priority_Non_Pre_Form_Load(
             object sender,
             EventArgs e)
